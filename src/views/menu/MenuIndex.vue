@@ -21,7 +21,9 @@
         <b-col cols="9">
           <div id="listgroup-ex" style="position:relative; overflow-y:auto; height:500px">
             <h4 id="list-item-1">Item 1</h4>
-            <p>{{ text }}</p>
+            <ul>
+              <li></li>
+            </ul>
             <h4 id="list-item-2">Item 2</h4>
             <p>{{ text }}</p>
             <h4 id="list-item-3">Item 3</h4>
