@@ -120,6 +120,7 @@ export default {
   margin-left: 10px;
 }
 
+
 #sidebar-div {
   position: absolute;
   width: 22%;

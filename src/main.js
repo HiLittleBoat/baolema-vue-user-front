@@ -9,6 +9,15 @@ import 'jquery/dist/jquery.min'
 
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
+//引入axios
+import "/src/axios/request.js";
+import request from "/src/axios/request.js";
+Vue.prototype.$api = request
+
+//引入jquery
+import jquery from "jquery";
+Vue.prototype.$ = jquery;
+
 new Vue({
   router,
   render: h => h(App)
