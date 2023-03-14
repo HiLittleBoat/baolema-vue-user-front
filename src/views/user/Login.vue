@@ -1,6 +1,7 @@
 <template>
 
   <div>
+
     <div id="back">
       <canvas id="canvas" class="canvas-back" ref="canvas"></canvas>
       <div class="backRight">
@@ -17,8 +18,11 @@
             <form id="form-signup" method="post" onsubmit="return false;">
               <div class="form-element form-stack">
                 <label for="phonenumber" class="form-label">手机号</label>
-                <input id="phonenumber" type="text" name="phonenumber" class="form-input">
+                <input id="phonenumber" type="text" name="phonenumber" class="form-input" @blur="PhoneConfirmLeave">
                 </div>
+              <!--是否已存在文本框-->
+              <div id="PhoneWrongConfirm"></div>
+
               <div class="form-element form-stack">
                 <label for="phonenumber" class="form-label">验证码</label>
 
@@ -35,9 +39,10 @@
                 <input id="password-signup" type="password" name="password" class="form-input">
               </div>
               <div class="form-element form-stack">
-                <label for="password-signup" class="form-label">请再次输入密码</label>
-                <input id="password-signup" type="password" name="password" class="form-input">
+                <label if="password-signup" for="password-signup" class="form-label" >请再次输入密码</label>
+                <input id="password-signup1" type="password" name="password" class="form-input" @blur="confirmLeave">
               </div>
+              <div id="wrongConfirm"></div>
 
 
               <div class="form-element form-submit">
@@ -53,12 +58,12 @@
             <form id="form-login" method="post" onsubmit="return false;">
               <div class="form-element form-stack">
                 <label for="user-phone" class="form-label">手机号</label>
-                <input id="user-phone" type="text" name="username" class="form-input">
+                <input id="user-phone" type="text" name="phonenumber" class="form-input" v-model="phoneNumber1">
 
               </div>
               <div class="form-element form-stack">
                 <label for="password-login" class="form-label">密码</label>
-                <input id="password-login" type="password" name="password" class="form-input">
+                <input id="password-login" type="password" name="password" class="form-input" v-model="password1">
               </div>
               <div class="form-element form-submit">
                 <button id="logIn" class="login" type="submit" name="login" @click="login">登录</button>
@@ -69,6 +74,14 @@
         </div>
       </div>
     </div>
+    <div>
+<!--      <b-alert-->
+<!--               variant="warning"-->
+<!--                id="balert" fade input></b-alert>-->
+      <b-alert v-if="isError" v-model="isError" variant="danger" >
+        {{ msg }}
+      </b-alert>
+    </div>
   </div>
 </template>
 
@@ -76,23 +89,107 @@
 
 import {config, formatXml} from '@/assets/js/login.js'
 import paper from "paper";
-import {BButton} from "bootstrap-vue";
+import {BButton, BAlert} from "bootstrap-vue";
 
 export default {
   name: "Login",
   components: {
     config,
     formatXml,
-    BButton
+    BButton,
+    BAlert
   },
-  data() {},
+  data() {
+    return{
+      msg:'',
+      isError:false,
+      phoneNumber1: '',
+      password1: '',
+    }
+  },
   methods:{
+    //手机号格式+是否存在
+    PhoneConfirmLeave(){
+      this.comfirm = document.getElementById('phonenumber').value
+
+      if(this.comfirm === ''){
+        document.getElementById('phonenumber').setAttribute('class','emailText change')
+        document.getElementById('PhoneWrongConfirm').innerText = '手机号不能为空'
+      }else{
+        document.getElementById('phonenumber').setAttribute('class','emailText')
+        if(!(/^1[3456789]\d{9}$/.test(this.comfirm))){
+          document.getElementById('phonenumber').setAttribute('class','emailText change')
+          document.getElementById('PhoneWrongConfirm').innerText = '手机号格式不正确'
+        }else{
+          document.getElementById('phonenumber').setAttribute('class','emailText')
+          document.getElementById('PhoneWrongConfirm').innerText = ''
+          // 再加一个返回数据库校验手机号是否存在
+          this.$api({
+            url: '/customer/check',
+            method: 'get', //这个是method,用methods会默认post
+            params: {
+              phonenumber: this.phonenumber,
+            }
+          }).then(res => {
+            console.log(res)
+            // 20040是已经存在，get-error，20041是已经存在了
+            if(res.code === 20040){
+              document.getElementById('phonenumber').setAttribute('class','emailText')
+              document.getElementById('PhoneWrongConfirm').innerText = ''
+            }else if(res.code === 20041){
+              document.getElementById('phonenumber').setAttribute('class','emailText')
+              document.getElementById('PhoneWrongConfirm').innerText = '该手机号已存在'
+            }
+          }).catch(function (error){
+            console.log(error);
+          });
+
+        }
+      }
+      console.log(document.getElementById('PhoneWrongConfirm').innerText)
+    },
+    //两次密码比对
+    confirmLeave () {
+      this.password = document.getElementById('password-signup').value
+      this.password2 = document.getElementById('password-signup1').value
+      console.log(this.confirm)
+      if (this.password === '') {
+        document.getElementById('confirmText').setAttribute('class', 'emailText change')
+        document.getElementById('wrongConfirm').innerText = '密码不能为空'
+      } else {
+        document.getElementById('confirmText').setAttribute('class', 'emailText')
+        if (this.password !== this.confirm) {
+          document.getElementById('confirmText').setAttribute('class', 'emailText change')
+          document.getElementById('wrongConfirm').innerText = '两次输入的密码不匹配'
+        } else {
+          document.getElementById('confirmText').setAttribute('class', 'emailText')
+          document.getElementById('wrongConfirm').innerText = ''
+        }
+      }
+    },
+
+    // 登录验证
     login() {
         this.$api({
-          url: '/managers',
-          methods: 'get'
+          url: '/login/customer',
+          method: 'post', //这个是method,用methods会默认post
+          params: {
+            phoneNumber: this.phoneNumber1,
+            password: this.password1
+          }
         }).then(res => {
-          console.log(res)
+          console.log(res.code)
+          if(res.code === 20051){
+            // 登录成功
+            this.$router.push({path: '/user/menu'})
+          }else {
+            // 登录失败,用bootstrap警告提醒框提醒
+            console.log(res.msg+'1')
+            this.isError = true;
+            this.msg = res.msg;
+
+
+          }
         }).catch(function (error){
           console.log(error);
         });
@@ -255,7 +352,19 @@ $font-default: 'Roboto', sans-serif;
 $success: #5cb85c;
 $error: #d9534f;
 
+// 登陆失败弹窗
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
 
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+}
+
+.b-alert .close {
+  right: auto;
+  left: 15px;
+}
 #send-message{
   position: absolute;
   float: right;
