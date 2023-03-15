@@ -111,7 +111,7 @@ export default {
     //手机号格式+是否存在
     PhoneConfirmLeave(){
       this.comfirm = document.getElementById('phonenumber').value
-
+      //1
       if(this.comfirm === ''){
         document.getElementById('phonenumber').setAttribute('class','emailText change')
         document.getElementById('PhoneWrongConfirm').innerText = '手机号不能为空'
