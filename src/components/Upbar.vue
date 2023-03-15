@@ -71,7 +71,6 @@ import {
   BNavForm,
   BFormInput,
   BButton,
-  BNavDropdown,
   BDropdownItem,
   BSidebar
 } from 'bootstrap-vue'
@@ -87,7 +86,6 @@ export default {
     BNavForm,
     BFormInput,
     BButton,
-    BNavDropdown,
     BDropdownItem,
     BSidebar
   },
