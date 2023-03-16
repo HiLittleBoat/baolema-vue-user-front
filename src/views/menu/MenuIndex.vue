@@ -33,7 +33,7 @@
                     <h5 class="card-title">{{ dish.dish }}</h5>
                     <p class="card-text">{{ dish.description }}</p>
                     <p class="card-text">价格：{{ dish.price }}元</p>
-                    <button class="btn btn-primary" @click="addToCart(dish)">加入购物车</button>
+                    <button class="btn btn-warning" @click="addToCart(dish)">加入购物车</button>
                   </div>
                 </div>
                 <!--                <menu-item v-for="dish in category.dishes" :key="dish.id" :item="dish"></menu-item>-->
@@ -156,7 +156,7 @@
               <b-col cols="4" id="gotopaycols">
                 <div class="descbox">
                   <div class="gotext">
-                    <b-button variant="warning" id="gotopay">去结算</b-button>
+                    <b-button variant="warning" id="gotopay" @click="gotoPayPage(cart,cartnum)">去结算</b-button>
                   </div>
                 </div>
 
@@ -477,6 +477,11 @@ export default {
   //
   // },
   methods: {
+    //跳转支付页面
+    gotoPayPage() {
+      this.$router.push({path: '/user/pay'});
+    },
+
     //获取菜品信息
     getDishes() {
       // 通过后端API获取菜品列表（包括分类信息）
@@ -563,6 +568,10 @@ export default {
 </script>
 
 <style scoped>
+/*每个菜品列表，加入购物车*/
+
+
+
 #menu {
   font-size: 1rem;
   font-weight: 400;

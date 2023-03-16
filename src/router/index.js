@@ -5,10 +5,16 @@ import LoginView from '../views/user/Login.vue'
 import RegisterView from "@/views/user/Register.vue";
 import Shoppingcartfooter from "@/views/shopingcart/Footer.vue";
 import Order from "@/views/order/Order.vue";
+import Pay from "@/views/order/Pay.vue";
 
 Vue.use(VueRouter)
 
 const routes = [
+    {
+        path: '/user/pay',
+        name: 'Pay',
+        component: Pay
+    },
     {
         path: '/user/order',
         name: 'Order',
@@ -40,7 +46,7 @@ const routes = [
     {
         path: '/user/shopingcart',
         name: 'ShopingCartfooter',
-        component:Shoppingcartfooter
+        component: Shoppingcartfooter
     }
 
 

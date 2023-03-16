@@ -9,7 +9,8 @@
 ```angular2html
 npm install node-sass -D
 npm install sass-loader -D
-npm install paper 
+npm install paper
+npm i vant@latest-v2 -S
 ```
 4. 运行
 ```
