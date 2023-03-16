@@ -16,22 +16,21 @@
             <!--            </b-nav>-->
             <b-list-group v-b-scrollspy:listgroup-ex>
               <b-list-group-item class="list-nav-item" v-for="(category, index) in categories" :key="index"
-                                 :href="`#${category.id}`"
-              >
-                {{ category.name }}
+                                 :href="`#p${category.categoryID}`">
+                {{ category.categoryName }}
               </b-list-group-item>
             </b-list-group>
           </div>
         </b-col>
         <b-col cols="9">
-          <div id="listgroup-ex" class="menu-content" style="position:relative; overflow-y:auto; height:800px">
-            <div v-for="(category, index) in categories" :key="index" :id="category.id" class="menu-section">
-              <h3>{{ category.name }}</h3>
+          <div class="menu-content" id="listgroup-ex" style="position:relative; overflow-y:auto; height:800px">
+            <div  v-for="(category, index) in categories" :key="index" class="menu-section">
+              <h3 :id="'p'+category.categoryID">{{ category.categoryName }}</h3>
               <b-row>
-                <div class="card" v-for="(dish,index2) in category.dishes" :key="index2">
-                  <img class="card-img-top" :src="dish.image" :alt="dish.name">
+                <div class="card" v-for="(dish,index2) in category.dishList" :key="index2">
+                  <img class="card-img-top" :src="dish.dishPhoto"> <!--:alt="dish.dish"-->
                   <div class="card-body">
-                    <h5 class="card-title">{{ dish.name }}</h5>
+                    <h5 class="card-title">{{ dish.dish }}</h5>
                     <p class="card-text">{{ dish.description }}</p>
                     <p class="card-text">价格：{{ dish.price }}元</p>
                     <button class="btn btn-primary" @click="addToCart(dish)">加入购物车</button>
@@ -73,9 +72,9 @@
     <!--                <button class="btn btn-primary" @click="addToCart(food)">加入购物车</button>-->
     <!--              </div>-->
     <!--            </div>-->
-    <!--            &lt;!&ndash;            <h4 id="list-item-1">Item 1</h4>&ndash;&gt;-->
-    <!--            &lt;!&ndash;            <ul>&ndash;&gt;-->
-    <!--            &lt;!&ndash;              <li></li>&ndash;&gt;-->
+    <!--                      <h4 id="list-item-1">Item 1</h4>&ndash;&gt;-->
+    <!--                   <ul>-->
+    <!--                          <li></li>-->
     <!--            &lt;!&ndash;            </ul>&ndash;&gt;-->
     <!--            &lt;!&ndash;            <h4 id="list-item-2">Item 2</h4>&ndash;&gt;-->
     <!--            &lt;!&ndash;            <p>{{ text }}</p>&ndash;&gt;-->
@@ -148,7 +147,7 @@
                     </b-col>
                     <b-col col="6">
                       <div>共计</div>
-                      <div class="aggPrice"> ￥{{totalprice}}</div>
+                      <div class="aggPrice"> ￥{{ totalprice }}</div>
                     </b-col>
                   </b-row>
 
@@ -175,10 +174,9 @@
 </template>
 
 <script>
-import {BListGroup, BListGroupItem, BSidebar, BButton, BImg} from 'bootstrap-vue'
+import {BListGroup, BListGroupItem, BSidebar, BButton, BImg, VBScrollspy,  VBScrollspyPlugin,} from 'bootstrap-vue'
 import Upbar from "@/components/Upbar.vue";
 // import Shoppingcartfooter from "@/views/shopingcart/Footer.vue";
-
 
 export default {
   name: "MenuIndex",
@@ -189,7 +187,8 @@ export default {
     BImg,
     BListGroup,
     BListGroupItem,
-
+    VBScrollspy,
+    VBScrollspyPlugin
   },
   data() {
     return {
@@ -199,236 +198,324 @@ export default {
       cartnum: 0, //购物车数量
       totalprice: 0, //总价
       categories: [
-        {
-          id: 1,
-          name: "汉堡",
-          dishes: [
-            {
-              id: 1,
-              name: "汉堡11",
-              description: "汉堡",
-              image: "https://img.yzcdn.cn/vant/cat.jpeg",
-              price: 10,
-              stock: 100
-            },
-            {
-              id: 2,
-              name: "汉堡",
-              description: "汉堡",
-              image: "https://img.yzcdn.cn/vant/cat.jpeg",
-              price: 10,
-              stock: 100
-            },
-            // {
-            //   id: 3,
-            //   name: "汉堡",
-            //   description: "汉堡",
-            //   image: "https://img.yzcdn.cn/vant/cat.jpeg",
-            //   price: 10,
-            //   stock: 100
-            // },
-            // {
-            //   id: 4,
-            //   name: "汉堡",
-            //   description: "汉堡",
-            //   image: "https://img.yzcdn.cn/vant/cat.jpeg",
-            //   price: 10,
-            //   stock: 100
-            // },
-            // {
-            //   id: 5,
-            //   name: "汉堡",
-            //   description: "汉堡",
-            //   image: "https://img.yzcdn.cn/vant/cat.jpeg",
-            //   price: 10,
-            //   stock: 100
-            // },
-            // {
-            //   id: 6,
-            //   name: "汉堡",
-            //   description: "汉堡",
-            //   image: "https://img.yzcdn.cn/vant/cat.jpeg",
-            //   price: 10,
-            //   stock: 100
-            // },
-            // {
-            //   id: 7,
-            //   name: "汉堡",
-            //   description: "汉堡",
-            //   image: "https://img.yzcdn.cn/vant/cat.jpeg",
-            //   price: 10,
-            //   stock: 100
-            // },
-            // {
-            //   id: 8,
-            //   name: "汉堡",
-            //   description: "汉堡",
-            //   image: "https://img.yzcdn.cn/vant/cat.jpeg",
-            //   price: 10,
-            //   stock: 100
-            // }
-          ]
-        },
-        {
-          id: 2,
-          name: "汉堡2",
-          image: "https://img.yzcdn.cn/vant/cat.jpeg",
-          dishes: [
-            {
-              id: 1,
-              name: "汉堡111",
-              description: "汉堡",
-              image: "https://img.yzcdn.cn/vant/cat.jpeg",
-              price: 10,
-              stock: 100
-            },
-            {
-              id: 2,
-              name: "汉堡",
-              description: "汉堡",
-              image: "https://img.yzcdn.cn/vant/cat.jpeg",
-              price: 10,
-              stock: 100
-            },
-            {
-              id: 3,
-              name: "汉堡",
-              description: "汉堡",
-              image: "https://img.yzcdn.cn/vant/cat.jpeg",
-              price: 10,
-              stock: 100
-            },
-            {
-              id: 4,
-              name: "汉堡",
-              description: "汉堡",
-              image: "https://img.yzcdn.cn/vant/cat.jpeg",
-              price: 10,
-              stock: 100
-            },
-            {
-              id: 5,
-              name: "汉堡",
-              description: "汉堡",
-              image: "https://img.yzcdn.cn/vant/cat.jpeg",
-              price: 10,
-              stock: 100
-            },
-            {
-              id: 6,
-              name: "汉堡",
-              description: "汉堡",
-              image: "https://img.yzcdn.cn/vant/cat.jpeg",
-              price: 10,
-              stock: 100
-            },
-            {
-              id: 7,
-              name: "汉堡",
-              description: "汉堡",
-              image: "https://img.yzcdn.cn/vant/cat.jpeg",
-              price: 10,
-              stock: 100
-            },
-            {
-              id: 8,
-              name: "汉堡",
-              description: "汉堡",
-              image: "https://img.yzcdn.cn/vant/cat.jpeg",
-              price: 10,
-              stock: 100
-            }
-          ]
-        },
-        {
-          id: 3,
-          name: "汉堡3",
-          image: "https://img.yzcdn.cn/vant/cat.jpeg",
-          dishes: [
-            {
-              id: 1,
-              name: "汉堡1111",
-              description: "汉堡",
-              image: "https://img.yzcdn.cn/vant/cat.jpeg",
-              price: 10,
-              stock: 100
-            },
-            {
-              id: 2,
-              name: "汉堡",
-              description: "汉堡",
-              image: "https://img.yzcdn.cn/vant/cat.jpeg",
-              price: 10,
-              stock: 100
-            },
-            {
-              id: 3,
-              name: "汉堡",
-              description: "汉堡",
-              image: "https://img.yzcdn.cn/vant/cat.jpeg",
-              price: 10,
-              stock: 100
-            },
-            {
-              id: 4,
-              name: "汉堡",
-              description: "汉堡",
-              image: "https://img.yzcdn.cn/vant/cat.jpeg",
-              price: 10,
-              stock: 100
-            },
-            {
-              id: 5,
-              name: "汉堡",
-              description: "汉堡",
-              image: "https://img.yzcdn.cn/vant/cat.jpeg",
-              price: 10,
-              stock: 100
-            },
-            {
-              id: 6,
-              name: "汉堡",
-              description: "汉堡",
-              image: "https://img.yzcdn.cn/vant/cat.jpeg",
-              price: 10,
-              stock: 100
-            },
-            {
-              id: 7,
-              name: "汉堡",
-              description: "汉堡",
-              image: "https://img.yzcdn.cn/vant/cat.jpeg",
-              price: 10,
-              stock: 100
-            },
-            {
-              id: 8,
-              name: "汉堡",
-              description: "汉堡",
-              image: "https://img.yzcdn.cn/vant/cat.jpeg",
-              price: 10,
-              stock: 100
-            }
-          ]
-        },
+        // {
+        //   categoryID: 1,
+        //   categoryName: "汉堡",
+        //   dishList: [
+        //     {
+        //       dishID: 1,
+        //       dish: "汉堡11",
+        //       description: "汉堡",
+        //       dishPhoto: "https://img.yzcdn.cn/vant/cat.jpeg",
+        //       price: 10,
+        //       stock: 100
+        //     },
+        //     {
+        //       dishID: 2,
+        //       dish: "汉堡",
+        //       description: "汉堡",
+        //       dishPhoto: "https://img.yzcdn.cn/vant/cat.jpeg",
+        //       price: 10,
+        //       stock: 100
+        //     },
+        //     {
+        //       dishID: 3,
+        //       dish: "汉堡",
+        //       description: "汉堡",
+        //       dishPhoto: "https://img.yzcdn.cn/vant/cat.jpeg",
+        //       price: 10,
+        //       stock: 100
+        //     },
+        //     {
+        //       dishID: 4,
+        //       dish: "汉堡",
+        //       description: "汉堡",
+        //       dishPhoto: "https://img.yzcdn.cn/vant/cat.jpeg",
+        //       price: 10,
+        //       stock: 100
+        //     },
+        //     // {
+        //     //   id: 3,
+        //     //   name: "汉堡",
+        //     //   description: "汉堡",
+        //     //   image: "https://img.yzcdn.cn/vant/cat.jpeg",
+        //     //   price: 10,
+        //     //   stock: 100
+        //     // },
+        //     // {
+        //     //   id: 4,
+        //     //   name: "汉堡",
+        //     //   description: "汉堡",
+        //     //   image: "https://img.yzcdn.cn/vant/cat.jpeg",
+        //     //   price: 10,
+        //     //   stock: 100
+        //     // },
+        //     // {
+        //     //   id: 5,
+        //     //   name: "汉堡",
+        //     //   description: "汉堡",
+        //     //   image: "https://img.yzcdn.cn/vant/cat.jpeg",
+        //     //   price: 10,
+        //     //   stock: 100
+        //     // },
+        //     // {
+        //     //   id: 6,
+        //     //   name: "汉堡",
+        //     //   description: "汉堡",
+        //     //   image: "https://img.yzcdn.cn/vant/cat.jpeg",
+        //     //   price: 10,
+        //     //   stock: 100
+        //     // },
+        //     // {
+        //     //   id: 7,
+        //     //   name: "汉堡",
+        //     //   description: "汉堡",
+        //     //   image: "https://img.yzcdn.cn/vant/cat.jpeg",
+        //     //   price: 10,
+        //     //   stock: 100
+        //     // },
+        //     // {
+        //     //   id: 8,
+        //     //   name: "汉堡",
+        //     //   description: "汉堡",
+        //     //   image: "https://img.yzcdn.cn/vant/cat.jpeg",
+        //     //   price: 10,
+        //     //   stock: 100
+        //     // }
+        //   ]
+        // },
+        // {
+        //   categoryID: 2,
+        //   categoryName: "汉堡",
+        //   dishList: [
+        //     {
+        //       dishID: 1,
+        //       dish: "汉堡11",
+        //       description: "汉堡",
+        //       dishPhoto: "https://img.yzcdn.cn/vant/cat.jpeg",
+        //       price: 10,
+        //       stock: 100
+        //     },
+        //     {
+        //       dishID: 2,
+        //       dish: "汉堡",
+        //       description: "汉堡",
+        //       dishPhoto: "https://img.yzcdn.cn/vant/cat.jpeg",
+        //       price: 10,
+        //       stock: 100
+        //     },
+        //     {
+        //       dishID: 3,
+        //       dish: "汉堡",
+        //       description: "汉堡",
+        //       dishPhoto: "https://img.yzcdn.cn/vant/cat.jpeg",
+        //       price: 10,
+        //       stock: 100
+        //     },
+        //     {
+        //       dishID: 4,
+        //       dish: "汉堡",
+        //       description: "汉堡",
+        //       dishPhoto: "https://img.yzcdn.cn/vant/cat.jpeg",
+        //       price: 10,
+        //       stock: 100
+        //     },
+        //     // {
+        //     //   id: 3,
+        //     //   name: "汉堡",
+        //     //   description: "汉堡",
+        //     //   image: "https://img.yzcdn.cn/vant/cat.jpeg",
+        //     //   price: 10,
+        //     //   stock: 100
+        //     // },
+        //     // {
+        //     //   id: 4,
+        //     //   name: "汉堡",
+        //     //   description: "汉堡",
+        //     //   image: "https://img.yzcdn.cn/vant/cat.jpeg",
+        //     //   price: 10,
+        //     //   stock: 100
+        //     // },
+        //     // {
+        //     //   id: 5,
+        //     //   name: "汉堡",
+        //     //   description: "汉堡",
+        //     //   image: "https://img.yzcdn.cn/vant/cat.jpeg",
+        //     //   price: 10,
+        //     //   stock: 100
+        //     // },
+        //     // {
+        //     //   id: 6,
+        //     //   name: "汉堡",
+        //     //   description: "汉堡",
+        //     //   image: "https://img.yzcdn.cn/vant/cat.jpeg",
+        //     //   price: 10,
+        //     //   stock: 100
+        //     // },
+        //     // {
+        //     //   id: 7,
+        //     //   name: "汉堡",
+        //     //   description: "汉堡",
+        //     //   image: "https://img.yzcdn.cn/vant/cat.jpeg",
+        //     //   price: 10,
+        //     //   stock: 100
+        //     // },
+        //     // {
+        //     //   id: 8,
+        //     //   name: "汉堡",
+        //     //   description: "汉堡",
+        //     //   image: "https://img.yzcdn.cn/vant/cat.jpeg",
+        //     //   price: 10,
+        //     //   stock: 100
+        //     // }
+        //   ]
+        // },
+        // {
+        //   categoryID: 3,
+        //   categoryName: "汉堡",
+        //   dishList: [
+        //     {
+        //       dishID: 1,
+        //       dish: "汉堡11",
+        //       description: "汉堡",
+        //       dishPhoto: "https://img.yzcdn.cn/vant/cat.jpeg",
+        //       price: 10,
+        //       stock: 100
+        //     },
+        //     {
+        //       dishID: 2,
+        //       dish: "汉堡",
+        //       description: "汉堡",
+        //       dishPhoto: "https://img.yzcdn.cn/vant/cat.jpeg",
+        //       price: 10,
+        //       stock: 100
+        //     },
+        //     {
+        //       dishID: 3,
+        //       dish: "汉堡",
+        //       description: "汉堡",
+        //       dishPhoto: "https://img.yzcdn.cn/vant/cat.jpeg",
+        //       price: 10,
+        //       stock: 100
+        //     },
+        //     {
+        //       dishID: 4,
+        //       dish: "汉堡",
+        //       description: "汉堡",
+        //       dishPhoto: "https://img.yzcdn.cn/vant/cat.jpeg",
+        //       price: 10,
+        //       stock: 100
+        //     },
+        //     // {
+        //     //   id: 3,
+        //     //   name: "汉堡",
+        //     //   description: "汉堡",
+        //     //   image: "https://img.yzcdn.cn/vant/cat.jpeg",
+        //     //   price: 10,
+        //     //   stock: 100
+        //     // },
+        //     // {
+        //     //   id: 4,
+        //     //   name: "汉堡",
+        //     //   description: "汉堡",
+        //     //   image: "https://img.yzcdn.cn/vant/cat.jpeg",
+        //     //   price: 10,
+        //     //   stock: 100
+        //     // },
+        //     // {
+        //     //   id: 5,
+        //     //   name: "汉堡",
+        //     //   description: "汉堡",
+        //     //   image: "https://img.yzcdn.cn/vant/cat.jpeg",
+        //     //   price: 10,
+        //     //   stock: 100
+        //     // },
+        //     // {
+        //     //   id: 6,
+        //     //   name: "汉堡",
+        //     //   description: "汉堡",
+        //     //   image: "https://img.yzcdn.cn/vant/cat.jpeg",
+        //     //   price: 10,
+        //     //   stock: 100
+        //     // },
+        //     // {
+        //     //   id: 7,
+        //     //   name: "汉堡",
+        //     //   description: "汉堡",
+        //     //   image: "https://img.yzcdn.cn/vant/cat.jpeg",
+        //     //   price: 10,
+        //     //   stock: 100
+        //     // },
+        //     // {
+        //     //   id: 8,
+        //     //   name: "汉堡",
+        //     //   description: "汉堡",
+        //     //   image: "https://img.yzcdn.cn/vant/cat.jpeg",
+        //     //   price: 10,
+        //     //   stock: 100
+        //     // }
+        //   ]
+        // },
+
       ]
 
     }
   },
-  created() {
-    //从后台获取菜品信息数据
-    // 通过后端API获取菜品列表（包括分类信息）
-    fetch('/api/dishes-with-categories')
-        .then(response => response.json())
-        .then(data => {
-          this.categories = data
-          console.log(data)
-        })
-        .catch(error => {
-          console.error(error)
-        })
+  mounted() {
+    this.getDishes();
   },
+  // mounted() {
+  //   //从后台获取菜品信息数据
+  //   // 通过后端API获取菜品列表（包括分类信息）
+  //   function getDishes() {
+  //     return new Promise((resolve, reject) => {
+  //       setTimeout(() => {
+  //         resolve(dishes);
+  //       }, 1000);
+  //     });
+  //   }
+  //
+  // },
   methods: {
+    //获取菜品信息
+    getDishes() {
+      // 通过后端API获取菜品列表（包括分类信息）
+      this.$api({
+        url: '/categories/alldishes',
+        method: 'get'
+      }).then(res => {
+        console.log(res)
+        this.categories = res.data;
+      }).catch(function (error) {
+        console.log(error);
+      });
+      // this.$api({
+      //   url: '/login/customer',
+      //   method: 'post', //这个是method,用methods会默认post
+      //   params: {
+      //     phoneNumber: this.phoneNumber1,
+      //     password: this.password1
+      //   }
+      // }).then(res => {
+      //   console.log(res.code)
+      //   if(res.code === 20051){
+      //     // 登录成功
+      //     this.$router.push({path: '/user/menu'})
+      //   }else {
+      //     // 登录失败,用bootstrap警告提醒框提醒
+      //     console.log(res.msg+'1')
+      //     this.isError = true;
+      //     this.msg = res.msg;
+      //
+      //
+      //   }
+      // }).catch(function (error){
+      //   console.log(error);
+      // });
+
+    },
+
+
     //购物车数量减一
     removeFromCart(item) {
       /* 将商品从购物车中移除 */
@@ -439,7 +526,7 @@ export default {
       if (item.quantity === 1) {
         this.cart.splice(index, 1);
         return;
-      }else{
+      } else {
         item.quantity -= 1;
       }
 
@@ -458,8 +545,8 @@ export default {
       if (index === -1) {
         /* 如果购物车中没有该商品，则将商品添加到购物车 */
         this.cart.push({
-          id: dish.id,
-          name: dish.name,
+          id: dish.dishID,
+          name: dish.dish,
           price: dish.price,
           quantity: 1
         });

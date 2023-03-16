@@ -4,10 +4,16 @@ import Upbar from '../components/Upbar.vue'
 import LoginView from '../views/user/Login.vue'
 import RegisterView from "@/views/user/Register.vue";
 import Shoppingcartfooter from "@/views/shopingcart/Footer.vue";
+import Order from "@/views/order/Order.vue";
 
 Vue.use(VueRouter)
 
 const routes = [
+    {
+        path: '/user/order',
+        name: 'Order',
+        component: Order
+    },
     {
         path: '/user/upbar',
         name: 'Upbar',
