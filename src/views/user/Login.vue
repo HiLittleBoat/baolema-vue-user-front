@@ -18,7 +18,7 @@
             <form id="form-signup" method="post" onsubmit="return false;">
               <div class="form-element form-stack">
                 <label for="phonenumber" class="form-label">手机号</label>
-                <input id="phonenumber" type="text" name="phonenumber" class="form-input" @blur="PhoneConfirmLeave">
+                <input id="phonenumber" type="text" name="phonenumber" class="form-input" @blur="PhoneConfirmLeave" v-model="phonenumber">
                 </div>
               <!--是否已存在文本框-->
               <div id="PhoneWrongConfirm"></div>
@@ -27,7 +27,7 @@
                 <label for="phonenumber" class="form-label">验证码</label>
 
                 <input id="phonenumber" type="text" name="phonenumber" class="form-input">
-                <b-button  type="submit" id="send-message" click="getMessage">发送验证码</b-button>
+                <b-button  type="submit" id="send-message" @click="getMessage">发送验证码</b-button>
 
               </div>
               <div class="form-element form-stack">
@@ -105,9 +105,25 @@ export default {
       isError:false,
       phoneNumber1: '',
       password1: '',
+      phonenumber: '',
     }
   },
   methods:{
+    //验证码
+    getMessage(){
+      this.$api({
+        url: '/register/getcode',
+        method: 'get', //这个是method,用methods会默认post
+        params: {
+          phoneNumber: this.phonenumber,
+        }
+      }).then(res => {
+        console.log(res)
+      }).catch(function (error){
+        console.log(error)
+      })
+    },
+
     //手机号格式+是否存在
     PhoneConfirmLeave(){
       this.comfirm = document.getElementById('phonenumber').value
@@ -125,18 +141,18 @@ export default {
           document.getElementById('PhoneWrongConfirm').innerText = ''
           // 再加一个返回数据库校验手机号是否存在
           this.$api({
-            url: '/customer/check',
+            url: '/register/check',
             method: 'get', //这个是method,用methods会默认post
             params: {
-              phonenumber: this.phonenumber,
+              phoneNumber: this.phonenumber,
             }
           }).then(res => {
             console.log(res)
             // 20040是已经存在，get-error，20041是已经存在了
-            if(res.code === 20040){
+            if(res.code === 20061){
               document.getElementById('phonenumber').setAttribute('class','emailText')
               document.getElementById('PhoneWrongConfirm').innerText = ''
-            }else if(res.code === 20041){
+            }else if(res.code === 20060){
               document.getElementById('phonenumber').setAttribute('class','emailText')
               document.getElementById('PhoneWrongConfirm').innerText = '该手机号已存在'
             }

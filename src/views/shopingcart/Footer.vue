@@ -1,5 +1,6 @@
 <template>
   <div>
+<!--    购物车-->
     <div id="shoppingcartfooter">
       <!--购物车按钮-->
       <b-button v-b-toggle.sidebar-right id="cartbutton">
