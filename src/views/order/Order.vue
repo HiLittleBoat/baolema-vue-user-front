@@ -10,8 +10,15 @@
 
     <div id="truebody">
       <!--取餐码-->
-      <div id="numberbar">
-        <h1>230317001</h1>
+      <div id="numberbar" style="text-align: left">
+
+
+          <h1 id="odernumber">230317001</h1>
+        <van-badge content="取餐码" id="numberindex" />
+
+        <div id="text">
+          <p>{{step[currentSwipeItem]}}...</p>
+        </div>
 
       </div>
 
@@ -29,7 +36,7 @@
               <div class="step-item">
                 <div class="steps-active-icon">
                   <!-- 如果有icon或者图片可以更换放在这里，我的比较简单，我直接css画个圆 -->
-                  <van-icon :name="`${stepicon[idx]}`" size="50px" style="position: absolute;left: -20px;top: -50px"
+                  <van-icon :name="`${stepicon[idx]}`" size="40px" style="position: absolute;left: -13px;top: -48px"
                             color="#ffcd56"/>
                 </div>
                 <!-- 一定要和激活状态写在一起，不然文字就去进度条上方了，不要文字这个可以不要 -->
@@ -44,12 +51,12 @@
                 <!-- 未激活的样式 -->
                 <div v-if="currentSwipeItem > idx" class="steps-inactive-icon">
                   <!-- 如果有icon或者图片可以更换放在这里，我的比较简单，我直接css画个圆 -->
-                  <van-icon :name="`${stepicon[idx]}`" size="40px" style="position: absolute;left: -20px;top: -50px;"/>
+                  <van-icon :name="`${stepicon[idx]}`" size="30px" style="position: absolute;left: -9px;top: -43px;"/>
                 </div>
                 <!-- 激活并且完成的样式 -->
                 <div v-else class="steps-finish-icon">
                   <!-- 如果有icon或者图片可以更换放在这里，我的比较简单，我直接css画个圆 -->
-                  <van-icon :name="`${stepicon[idx]}`" size="40px" style="position: absolute;left: -20px;top: -50px;"/>
+                  <van-icon :name="`${stepicon[idx]}`" size="30px" style="position: absolute;left: -9px;top: -43px;"/>
                 </div>
                 <!-- 一定要和激活状态写在一起，不然文字就去进度条上方了，不要文字这个可以不要 -->
                 <span :class="currentSwipeItem > idx?'title-inactive':'title-finish'">
@@ -96,9 +103,9 @@
     <!--我已取餐点击/再来一单-->
     <!-- 设置footer固定在底部-->
     <div id="orderfooter">
-      <van-button plain hairline round color="#000000" class="footer-button" size="small" @click="finish">我已取餐
+      <van-button plain hairline round color="#000000" class="footer-button" size="formal" @click="finish">我已取餐
       </van-button>
-      <van-button round color="#fdcc56" class="footer-button" size="small" @click="gotoRate">点我评价</van-button>
+      <van-button round color="#fdcc56" class="footer-button" size="formal" @click="gotoRate">点我评价</van-button>
     </div>
 
     <van-dialog v-model="show" title="对堡了嘛还满意吗？" show-cancel-button :beforeClose="beforeClose">
@@ -251,10 +258,13 @@ mounted()
 </script>
 
 <style lang="scss" scoped>
+
+
 .footer-button{
   margin-left: 10px;
   margin-right: 10px;
-  margin-top: 8px;
+  margin-top: 3px;
+  width: 100px;
 }
 
 #orderfooter{
@@ -268,11 +278,43 @@ mounted()
   padding-bottom: 15px;
 
 }
+
+//这个是取餐码
+#numberindex{
+  position: absolute;
+  top: 33px;
+  left: 189px;
+  height: 20px;
+  width: 50px;
+  font-size: 13px;
+  color: #FFFFFF;
+  text-align: center;
+}
+
+//取餐号数字
+#odernumber {
+  position: relative;
+  top: 25px;
+  margin-bottom: -5px;
+  font-size: 30px;
+  color: #000000;
+  font-weight: bold;
+}
+//取餐号文字
+#text{
+  position: relative;
+  top: 15px;
+  margin-bottom: -5px;
+  color: #000000;
+  font-size: 12px;
+}
 //取餐吗部分
 #numberbar {
+  margin-left: 30px;
+
   top: 70px;
   left: 0;
-  width: 100%;
+  //width: 100%;
   height: 50px;
   z-index: 100;
   text-align: center;
