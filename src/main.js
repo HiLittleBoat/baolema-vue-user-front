@@ -9,6 +9,11 @@ import 'jquery/dist/jquery.min'
 
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
+
+import Vant from 'vant';
+import 'vant/lib/index.css';
+Vue.use(Vant);
+
 //引入axios
 import "/src/axios/request.js";
 import request from "/src/axios/request.js";
