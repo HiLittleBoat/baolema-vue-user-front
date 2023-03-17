@@ -169,18 +169,22 @@
       </b-sidebar>
 
     </div>
-
+<!--footer-->
+    <MenuFooter></MenuFooter>
   </div>
 </template>
 
 <script>
 import {BListGroup, BListGroupItem, BSidebar, BButton, BImg, VBScrollspy,  VBScrollspyPlugin,} from 'bootstrap-vue'
 import Upbar from "@/components/Upbar.vue";
+import MenuFooter from "@/components/MenuFooter.vue";
+
 // import Shoppingcartfooter from "@/views/shopingcart/Footer.vue";
 
 export default {
   name: "MenuIndex",
   components: {
+    MenuFooter,
     Upbar,
     BButton,
     BSidebar,

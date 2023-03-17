@@ -2,88 +2,108 @@
   <div id="body">
 
     <!--返回按钮-->
+
+
     <div id="backtitle">
       <van-icon name="arrow-left" @click="back" id="backicon"/>
     </div>
-    <!--取餐码-->
-    <div>
-      <h1>230317001</h1>
 
-    </div>
+    <div id="truebody">
+      <!--取餐码-->
+      <div id="numberbar">
+        <h1>230317001</h1>
+
+      </div>
 
 
-    <!--订单状态-->
-    <div id="step">
-      <van-steps :active="currentSwipeItem">
+      <!--订单状态-->
+      <div id="step">
+        <van-steps :active="currentSwipeItem">
 
-        <!--        2-->
+          <!--        2-->
 
-        <van-step v-for="(item, idx) in 4" :key="idx">
-          <template v-slot:active-icon>
+          <van-step v-for="(item, idx) in 4" :key="idx">
+            <template v-slot:active-icon>
 
-            <!-- 自定义激活时的样式 -->
-            <div class="step-item">
-              <div class="steps-active-icon">
-                <!-- 如果有icon或者图片可以更换放在这里，我的比较简单，我直接css画个圆 -->
-                <van-icon :name="`${stepicon[idx]}`" size="50px" style="position: absolute;left: -20px;top: -50px"
-                          color="#ffcd56"/>
-              </div>
-              <!-- 一定要和激活状态写在一起，不然文字就去进度条上方了，不要文字这个可以不要 -->
-              <span :class="currentSwipeItem === idx?'title-active':''">
+              <!-- 自定义激活时的样式 -->
+              <div class="step-item">
+                <div class="steps-active-icon">
+                  <!-- 如果有icon或者图片可以更换放在这里，我的比较简单，我直接css画个圆 -->
+                  <van-icon :name="`${stepicon[idx]}`" size="50px" style="position: absolute;left: -20px;top: -50px"
+                            color="#ffcd56"/>
+                </div>
+                <!-- 一定要和激活状态写在一起，不然文字就去进度条上方了，不要文字这个可以不要 -->
+                <span :class="currentSwipeItem === idx?'title-active':''">
                 {{ step[idx] }}
             </span>
-            </div>
-          </template>
-          <template v-slot:inactive-icon>
-            <!-- 自定义未激活时的样式 由于版本问题，目前我只有slot两种，vant版本v2.12.7以上可以直接slot三种-->
-            <div class="step-item">
-              <!-- 未激活的样式 -->
-              <div v-if="currentSwipeItem > idx" class="steps-inactive-icon">
-                <!-- 如果有icon或者图片可以更换放在这里，我的比较简单，我直接css画个圆 -->
-                <van-icon :name="`${stepicon[idx]}`" size="40px" style="position: absolute;left: -20px;top: -50px;"/>
               </div>
-              <!-- 激活并且完成的样式 -->
-              <div v-else class="steps-finish-icon">
-                <!-- 如果有icon或者图片可以更换放在这里，我的比较简单，我直接css画个圆 -->
-                <van-icon :name="`${stepicon[idx]}`" size="40px" style="position: absolute;left: -20px;top: -50px;"/>
-              </div>
-              <!-- 一定要和激活状态写在一起，不然文字就去进度条上方了，不要文字这个可以不要 -->
-              <span :class="currentSwipeItem > idx?'title-inactive':'title-finish'">
-              配餐中
+            </template>
+            <template v-slot:inactive-icon>
+              <!-- 自定义未激活时的样式 由于版本问题，目前我只有slot两种，vant版本v2.12.7以上可以直接slot三种-->
+              <div class="step-item">
+                <!-- 未激活的样式 -->
+                <div v-if="currentSwipeItem > idx" class="steps-inactive-icon">
+                  <!-- 如果有icon或者图片可以更换放在这里，我的比较简单，我直接css画个圆 -->
+                  <van-icon :name="`${stepicon[idx]}`" size="40px" style="position: absolute;left: -20px;top: -50px;"/>
+                </div>
+                <!-- 激活并且完成的样式 -->
+                <div v-else class="steps-finish-icon">
+                  <!-- 如果有icon或者图片可以更换放在这里，我的比较简单，我直接css画个圆 -->
+                  <van-icon :name="`${stepicon[idx]}`" size="40px" style="position: absolute;left: -20px;top: -50px;"/>
+                </div>
+                <!-- 一定要和激活状态写在一起，不然文字就去进度条上方了，不要文字这个可以不要 -->
+                <span :class="currentSwipeItem > idx?'title-inactive':'title-finish'">
+              {{ step[idx] }}
             </span>
-            </div>
-          </template>
-        </van-step>
+              </div>
+            </template>
+          </van-step>
 
 
-      </van-steps>
-    </div>
+        </van-steps>
+      </div>
 
-    <!--订单详情-->
-    <div id="order-detail-payed" v-for="(dish, index) in orderDetailList">
-      <van-card
-          :num="`${dish.number}`"
-          :price="`${dish.dishAmount/dish.number}`"
-          :desc="`${dish.description}`"
-          :title="`${dish.dishName}`"
-          :thumb="`${dish.dishPhoto}`"
-          style="background-color: #ffffff;"
-      />
-    </div>
+      <!--订单详情-->
+      <div id="order-detail-payed" v-for="(dish, index) in orderDetailList">
+        <van-card
+            :num="`${dish.number}`"
+            :price="`${dish.dishAmount/dish.number}`"
+            :desc="`${dish.description}`"
+            :title="`${dish.dishName}`"
+            :thumb="`${dish.dishPhoto}`"
+            style="background-color: #ffffff; text-align: left;"
+        />
+        <van-divider dashed></van-divider>
+      </div>
+      <div id="order-detail-payed-total" style="text-align: right">
+        <p>实付 ￥ <strong>{{ totalAmount }}</strong></p>
 
-<!--订单信息-->
-    <div id="order-detail-message">
-      <h5 >订单信息</h5>
-      <van-cell-group>
-        <van-cell title="订单编号" value="230317001" />
-        <van-cell title="下单时间" value="2020-03-17 12:00:00" />
-        <van-cell title="取餐时间" value="2020-03-17 12:00:00" />
-        <van-cell title="取餐码" value="230317001" />
-        <van-cell title="订单金额" value="￥39.00" />
-      </van-cell-group>
+      </div>
+
+
+      <!--订单信息-->
+      <div id="order-detail-message">
+        <h5 style="text-align: left; ">订单信息</h5>
+        <van-cell-group>
+          <van-cell title="订单编号" :value="`${orderId}`"/>
+          <van-cell title="下单时间" :value="`${createdTime}`"/>
+          <van-cell title="取餐码" value="230317001"/>
+          <van-cell title="订单金额" :value="`￥${totalAmount}`"/>
+        </van-cell-group>
+      </div>
     </div>
 
     <!--我已取餐点击/再来一单-->
+    <!-- 设置footer固定在底部-->
+    <div id="orderfooter">
+      <van-button plain hairline round color="#000000" class="footer-button" size="small" @click="finish">我已取餐
+      </van-button>
+      <van-button round color="#fdcc56" class="footer-button" size="small" @click="gotoRate">点我评价</van-button>
+    </div>
+
+    <van-dialog v-model="show" title="对堡了嘛还满意吗？" show-cancel-button :beforeClose="beforeClose">
+      <van-rate v-model="value" allow-half void-icon="star" void-color="##ffd21e" style="margin: 20px"/>
+    </van-dialog>
 
   </div>
 </template>
@@ -91,6 +111,7 @@
 <script>
 
 import {Icon, Step, Steps, Card} from 'vant';
+import Orderfooter from "@/views/order/Orderfooter.vue";
 
 export default {
   name: "Order",
@@ -98,10 +119,15 @@ export default {
     Icon,
     Step,
     Steps,
-    Card
+    Card,
+    Orderfooter
   },
   data() {
     return {
+      // 评价弹出框状态
+      show: false,
+      // 评价星级
+      value: 2.5,
       // 步骤条
       currentSwipeItem: 2,
       step: [
@@ -118,42 +144,46 @@ export default {
         "passed"
       ],
 
+      //订单信息
+      orderId: "2023031712000001", //有可能是哈希后的，名字不一定对
+      orderTime: "2020-03-17 12:00:00",
+      totalAmount: 93.0,
       //订单菜品列表
-      orderDetailList : [
+      orderDetailList: [
         {
           dishName: "汉堡",
-          description:"好吃的汉堡",
-          number:3,
+          description: "好吃的汉堡",
+          number: 3,
           dishAmount: 39.0,
-          dishPhoto:"https://img01.yzcdn.cn/vant/ipad.jpeg"
+          dishPhoto: "https://img01.yzcdn.cn/vant/ipad.jpeg"
         },
         {
           dishName: "汉堡",
-          description:"好吃的汉堡",
-          number:1,
+          description: "好吃的汉堡",
+          number: 1,
           dishAmount: 15.0,
-          dishPhoto:"https://img01.yzcdn.cn/vant/ipad.jpeg"
+          dishPhoto: "https://img01.yzcdn.cn/vant/ipad.jpeg"
         },
         {
           dishName: "汉堡",
-          description:"好吃的汉堡",
+          description: "好吃的汉堡",
           number: 2,
           dishAmount: 39.0,
-          dishPhoto:"https://img01.yzcdn.cn/vant/ipad.jpeg"
+          dishPhoto: "https://img01.yzcdn.cn/vant/ipad.jpeg"
         },
         {
           dishName: "汉堡",
-          description:"好吃的汉堡",
+          description: "好吃的汉堡",
           number: 3,
           dishAmount: 39.0,
-          dishPhoto:"https://img01.yzcdn.cn/vant/ipad.jpeg"
+          dishPhoto: "https://img01.yzcdn.cn/vant/ipad.jpeg"
         },
         {
           dishName: "汉堡",
-          description:"好吃的汉堡",
+          description: "好吃的汉堡",
           number: 3,
           dishAmount: 39.0,
-          dishPhoto:"https://img01.yzcdn.cn/vant/ipad.jpeg"
+          dishPhoto: "https://img01.yzcdn.cn/vant/ipad.jpeg"
         }
 
       ],
@@ -161,39 +191,127 @@ export default {
   },
 
   methods: {
-    //获取订单菜品列表
-    // getOrderDishes(){
-    //   // 通过后端API获取菜品列表(orderinfo/{status}/{number}) 这里是模拟数据，后期要改，
-    //   this.$api({
-    //     url: 'orderinfo/0/3',
-    //     method: 'get'
-    //   }).then(res => {
-    //     console.log(res)
-    //     this.orderDishList = res.data[0].orderDetailList;
-    //     console.log(this.orderDishList);
-    //   }).catch(function (error) {
-    //     console.log(error);
-    //   });
-    // },
-    //返回上一层，没完全实现
-    back(){
-      this.$router.go(-1);
-    }
-  },
-  mounted() {
-    // this.getOrderDishes();
+    // 点击 去评价，弹出评价框
+    gotoRate() {
+      // 如果没点已取餐，就不能评价
+      if(this.currentSwipeItem != 3){
+        this.$toast.fail('请取餐后在评价嗷');
+      }else{
+        //弹出评价框
+        this.show = true;
+      }
+
+
+    },
+    // 监听评论框的内容
+    beforeClose(action, done) {
+      if (action === 'confirm') {
+        //获取评价信息，返回给后端数据
+        console.log(this.value)
+        this.$toast.success('谢谢惠顾！\n去评价一下');
+        done();
+      } else {
+        done();
+      }
+    },
+
+    // 点击 已取餐
+    finish() {
+      this.$toast.success('谢谢惠顾！\n去评价一下');
+      this.currentSwipeItem = 3;
+    },
+  //
+
+
+  //获取订单菜品列表
+  // getOrderDishes(){
+  //   // 通过后端API获取菜品列表(orderinfo/{status}/{number}) 这里是模拟数据，后期要改，
+  //   this.$api({
+  //     url: 'orderinfo/0/3',
+  //     method: 'get'
+  //   }).then(res => {
+  //     console.log(res)
+  //     this.orderDishList = res.data[0].orderDetailList;
+  //     console.log(this.orderDishList);
+  //   }).catch(function (error) {
+  //     console.log(error);
+  //   });
+  // },
+  //返回上一层，没完全实现
+  back() {
+    this.$router.go(-1);
   }
+}
+,
+mounted()
+{
+  // this.getOrderDishes();
+}
 }
 </script>
 
 <style lang="scss" scoped>
+.footer-button{
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 8px;
+}
 
-#order-detail-message{
+#orderfooter{
+  text-align: right;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 50px;
+  background-color: #f5f5f5;
+  border-top: 1px solid #e5e5e5;
+  padding-bottom: 15px;
+
+}
+//取餐吗部分
+#numberbar {
+  top: 70px;
+  left: 0;
+  width: 100%;
+  height: 50px;
+  z-index: 100;
+  text-align: center;
+  line-height: 50px;
+  font-size: 20px;
+  color: #000000;
+}
+
+
+//出去头部的高度和底部的高度
+#truebody {
+  position: relative;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+//实付金额
+#order-detail-payed-total {
+  width: 95%;
+  position: static;
+  margin-top: -20px;
+  margin-left: 10px;
+  margin-right: 10px;
+  padding-right: 20px;
+  padding-left: 20px;
+  padding-top: 15px;
+  padding-bottom: 10px;
+  background: #ffffff;
+  border-radius: 10px;
+}
+
+//订单信息
+#order-detail-message {
   width: 95%;
   position: static;
   margin-top: 20px;
   margin-left: 10px;
   margin-right: 10px;
+  margin-bottom: 20px;
   padding-right: 20px;
   padding-left: 20px;
   padding-top: 15px;
@@ -304,7 +422,12 @@ export default {
 }
 
 #backtitle {
+  position: fixed;
+  top: 0;
+  width: 100%;
   height: 50px;
+  background-color: #f5f5f5;
+  border-top: 1px solid #e5e5e5;
 }
 
 /*返回按钮*/
@@ -319,7 +442,6 @@ export default {
 /*body*/
 #body {
   background-color: #f5f5f5;
-  height: 100%;
 }
 
 #step {

@@ -6,10 +6,22 @@ import RegisterView from "@/views/user/Register.vue";
 import Shoppingcartfooter from "@/views/shopingcart/Footer.vue";
 import Order from "@/views/order/Order.vue";
 import Pay from "@/views/order/Pay.vue";
+import Orderfooter from "@/views/order/Orderfooter.vue";
+import MenuFooter from "../components/MenuFooter.vue"
 
 Vue.use(VueRouter)
 
 const routes = [
+    {
+        path: '/user/menu/footer',
+        name: 'MenuFooter',
+        component: MenuFooter
+    },
+    {
+        path: '/user/order/footer',
+        name: 'Orderfooter',
+        component: Orderfooter
+    },
     {
         path: '/user/pay',
         name: 'Pay',
