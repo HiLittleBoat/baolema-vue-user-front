@@ -2,8 +2,6 @@
   <div id="body">
 
     <!--返回按钮-->
-
-
     <div id="backtitle">
       <van-icon name="arrow-left" @click="back" id="backicon"/>
     </div>
@@ -11,13 +9,11 @@
     <div id="truebody">
       <!--取餐码-->
       <div id="numberbar" style="text-align: left">
-
-
-          <h1 id="odernumber">230317001</h1>
-        <van-badge content="取餐码" id="numberindex" />
+        <h1 id="odernumber">230317001</h1>
+        <van-badge content="取餐码" id="numberindex"/>
 
         <div id="text">
-          <p>{{step[currentSwipeItem]}}...</p>
+          <p>{{ step[currentSwipeItem] }}...</p>
         </div>
 
       </div>
@@ -25,7 +21,7 @@
 
       <!--订单状态-->
       <div id="step">
-        <van-steps :active="currentSwipeItem">
+        <van-steps :active="currentSwipeItem" id="orderstep">
 
           <!--        2-->
 
@@ -162,35 +158,35 @@ export default {
           description: "好吃的汉堡",
           number: 3,
           dishAmount: 39.0,
-          dishPhoto: "https://img01.yzcdn.cn/vant/ipad.jpeg"
+          dishPhoto: "https://i.postimg.cc/NFpkQDCW/image.png"
         },
         {
           dishName: "汉堡",
           description: "好吃的汉堡",
           number: 1,
           dishAmount: 15.0,
-          dishPhoto: "https://img01.yzcdn.cn/vant/ipad.jpeg"
+          dishPhoto: "https://i.postimg.cc/NFpkQDCW/image.png"
         },
         {
           dishName: "汉堡",
           description: "好吃的汉堡",
           number: 2,
           dishAmount: 39.0,
-          dishPhoto: "https://img01.yzcdn.cn/vant/ipad.jpeg"
+          dishPhoto: "https://i.postimg.cc/NFpkQDCW/image.png"
         },
         {
           dishName: "汉堡",
           description: "好吃的汉堡",
           number: 3,
           dishAmount: 39.0,
-          dishPhoto: "https://img01.yzcdn.cn/vant/ipad.jpeg"
+          dishPhoto: "https://i.postimg.cc/NFpkQDCW/image.png"
         },
         {
           dishName: "汉堡",
           description: "好吃的汉堡",
           number: 3,
           dishAmount: 39.0,
-          dishPhoto: "https://img01.yzcdn.cn/vant/ipad.jpeg"
+          dishPhoto: "https://i.postimg.cc/NFpkQDCW/image.png"
         }
 
       ],
@@ -201,9 +197,9 @@ export default {
     // 点击 去评价，弹出评价框
     gotoRate() {
       // 如果没点已取餐，就不能评价
-      if(this.currentSwipeItem != 3){
+      if (this.currentSwipeItem != 3) {
         this.$toast.fail('请取餐后在评价嗷');
-      }else{
+      } else {
         //弹出评价框
         this.show = true;
       }
@@ -227,60 +223,62 @@ export default {
       this.$toast.success('谢谢惠顾！\n去评价一下');
       this.currentSwipeItem = 3;
     },
-  //
+    //
 
 
-  //获取订单菜品列表
-  // getOrderDishes(){
-  //   // 通过后端API获取菜品列表(orderinfo/{status}/{number}) 这里是模拟数据，后期要改，
-  //   this.$api({
-  //     url: 'orderinfo/0/3',
-  //     method: 'get'
-  //   }).then(res => {
-  //     console.log(res)
-  //     this.orderDishList = res.data[0].orderDetailList;
-  //     console.log(this.orderDishList);
-  //   }).catch(function (error) {
-  //     console.log(error);
-  //   });
-  // },
-  //返回上一层，没完全实现
-  back() {
-    this.$router.go(-1);
+    //获取订单菜品列表
+    // getOrderDishes(){
+    //   // 通过后端API获取菜品列表(orderinfo/{status}/{number}) 这里是模拟数据，后期要改，
+    //   this.$api({
+    //     url: 'orderinfo/0/3',
+    //     method: 'get'
+    //   }).then(res => {
+    //     console.log(res)
+    //     this.orderDishList = res.data[0].orderDetailList;
+    //     console.log(this.orderDishList);
+    //   }).catch(function (error) {
+    //     console.log(error);
+    //   });
+    // },
+    //返回上一层，没完全实现
+    back() {
+      this.$router.go(-1);
+    }
   }
-}
-,
-mounted()
-{
-  // this.getOrderDishes();
-}
+  ,
+  mounted() {
+    // this.getOrderDishes();
+  }
 }
 </script>
 
 <style lang="scss" scoped>
 
+#orderstep {
+  margin: 60px auto
+}
 
-.footer-button{
+.footer-button {
   margin-left: 10px;
   margin-right: 10px;
   margin-top: 3px;
   width: 100px;
 }
 
-#orderfooter{
+// footer
+#orderfooter {
   text-align: right;
   position: fixed;
   bottom: 0;
   width: 100%;
-  height: 50px;
+  height: 55px;
   background-color: #f5f5f5;
   border-top: 1px solid #e5e5e5;
   padding-bottom: 15px;
-
 }
 
 //这个是取餐码
-#numberindex{
+#numberindex {
   position: absolute;
   top: 33px;
   left: 189px;
@@ -300,14 +298,16 @@ mounted()
   color: #000000;
   font-weight: bold;
 }
+
 //取餐号文字
-#text{
+#text {
   position: relative;
   top: 15px;
   margin-bottom: -5px;
   color: #000000;
   font-size: 12px;
 }
+
 //取餐吗部分
 #numberbar {
   margin-left: 30px;

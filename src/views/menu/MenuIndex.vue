@@ -483,7 +483,7 @@ export default {
   methods: {
     //跳转支付页面
     gotoPayPage() {
-      this.$router.push({path: '/user/pay'});
+      this.$router.push({path: '/user/order'}); //测试状态，还没有支付页面
     },
 
     //获取菜品信息
