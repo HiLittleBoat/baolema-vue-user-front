@@ -99,8 +99,9 @@ export default {
 
 /*侧边购物车按钮*/
 #cartbutton {
-  background-color: #ffcd56;
+  /*background-color: #ffcd56;*/
   /* 形状圆形 */
+  background-color: #ed662cd4;
   border-bottom-left-radius: 30px;
   border-top-left-radius: 30px
 

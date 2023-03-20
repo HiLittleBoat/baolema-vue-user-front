@@ -19,9 +19,10 @@
               <div class="form-element form-stack">
                 <label for="phonenumber" class="form-label">手机号</label>
                 <input id="phonenumber" type="text" name="phonenumber" class="form-input" @blur="PhoneConfirmLeave" v-model="phonenumber">
-                </div>
+                <div id="PhoneWrongConfirm" style="color:#ffc107 "></div>
+              </div>
               <!--是否已存在文本框-->
-              <div id="PhoneWrongConfirm"></div>
+
 
               <div class="form-element form-stack">
                 <label for="phonenumber" class="form-label">验证码</label>
@@ -54,6 +55,7 @@
         </div>
         <div class="right">
           <div class="content">
+<!--            <img id='logo' src="src/assets/logo1.png" width="100px">-->
             <h2>Login</h2>
             <form id="form-login" method="post" onsubmit="return false;">
               <div class="form-element form-stack">

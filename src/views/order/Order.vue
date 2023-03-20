@@ -211,7 +211,7 @@ export default {
       if (action === 'confirm') {
         //获取评价信息，返回给后端数据
         console.log(this.value)
-        this.$toast.success('谢谢惠顾！\n去评价一下');
+        this.$toast.success('感谢评价！\n小店会继续努力的!');
         done();
       } else {
         done();

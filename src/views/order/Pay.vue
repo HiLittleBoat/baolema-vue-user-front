@@ -76,7 +76,7 @@
     <van-divider dashed></van-divider>
 
     <!--footer-->
-    <van-submit-bar :price="3050" button-text="提交订单" @submit="onSubmit" />
+    <van-submit-bar :price="9370" button-text="去结算" @submit="onSubmit" />
 
   </div>
 </template>
@@ -121,13 +121,14 @@ export default {
       vipList: [0, 9, 8, 7, 6, 5],
 
       //订单总价
-      totalAmount: 93.0,
+      totalAmount: 93.7,
       //订单菜品列表
       orderDetailList: [
         {
           dishName: "汉堡",
           description: "好吃的汉堡",
           number: 3,
+          price: 15.0,
           dishAmount: 39.0,
           dishPhoto: "https://i.postimg.cc/NFpkQDCW/image.png"
         },
@@ -135,6 +136,7 @@ export default {
           dishName: "汉堡",
           description: "好吃的汉堡",
           number: 1,
+          price: 15.0,
           dishAmount: 15.0,
           dishPhoto: "https://i.postimg.cc/NFpkQDCW/image.png"
         },
@@ -142,6 +144,7 @@ export default {
           dishName: "汉堡",
           description: "好吃的汉堡",
           number: 2,
+          price: 15.0,
           dishAmount: 39.0,
           dishPhoto: "https://i.postimg.cc/NFpkQDCW/image.png"
         },
@@ -149,6 +152,7 @@ export default {
           dishName: "汉堡",
           description: "好吃的汉堡",
           number: 3,
+          price: 15.0,
           dishAmount: 39.0,
           dishPhoto: "https://i.postimg.cc/NFpkQDCW/image.png"
         },
@@ -156,6 +160,7 @@ export default {
           dishName: "汉堡",
           description: "好吃的汉堡",
           number: 3,
+          price: 15.0,
           dishAmount: 39.0,
           dishPhoto: "https://i.postimg.cc/NFpkQDCW/image.png"
         }
@@ -164,6 +169,19 @@ export default {
     }
   },
   methods: {
+    //加载订单信息
+    loadOrderDetail() {
+      this.orderDetailList = JSON.parse(sessionStorage.getItem("cart"));
+      this.totalAmount = sessionStorage.getItem("totalprice");
+    },
+
+    //加载会员等级
+    loadVipLevel() {
+      //先从sessionStorage中获取用户id
+
+      //
+
+    },
 
     //优惠券列表
     onChange(index) {
@@ -177,7 +195,18 @@ export default {
     //返回按钮
     onClickLeft() {
       this.$router.go(-1);
+    },
+
+    //提交订单
+    onSubmit() {
+      this.$toast('提交成功');
+      this.$router.push({path: '/user/order'});
+      // this.orderDetailList = sessionStorage.getItem("cart");
     }
+
+  },
+  mounted() {
+    loadOrderDetail();
 
   }
 }

@@ -24,17 +24,26 @@
         </b-col>
         <b-col cols="9">
           <div class="menu-content" id="listgroup-ex" style="position:relative; overflow-y:auto; height:800px">
-            <div  v-for="(category, index) in categories" :key="index" class="menu-section">
-              <h3 :id="'p'+category.categoryID">{{ category.categoryName }}</h3>
+            <div v-for="(category, index) in categories" :key="index" class="menu-section">
+              <h6 :id="'p'+category.categoryID" style="margin-top: 5px">{{ category.categoryName }}</h6>
               <b-row>
                 <div class="card" v-for="(dish,index2) in category.dishList" :key="index2">
-                  <img class="card-img-top" :src="dish.dishPhoto"> <!--:alt="dish.dish"-->
-                  <div class="card-body">
-                    <h5 class="card-title">{{ dish.dish }}</h5>
-                    <p class="card-text">{{ dish.description }}</p>
-                    <p class="card-text">价格：{{ dish.price }}元</p>
-                    <button class="btn btn-warning" @click="addToCart(dish)">加入购物车</button>
-                  </div>
+                  <b-row>
+                    <b-col cols="5">
+                      <img class="card-img-top" :src="dish.dishPhoto"> <!--:alt="dish.dish"-->
+                    </b-col>
+                    <b-col cols="7" class="card-message">
+                      <div class="card-body">
+                        <p class="card-title" style="font-size: 15px">{{ dish.dish }}</p>
+                        <p class="card-text" style="font-size: 12px" >{{ dish.description }}</p>
+                        <div class="card-text"><strong style="color:orange; font-size: 15px">￥{{ dish.price }}</strong>
+                          <van-button icon="plus" type="warning" color="#ee0a24" round @click="addToCart(dish)"
+                                      size="mini" id="addtocartmenu"></van-button>
+                        </div>
+                        <!--     <button class="btn btn-warning" @click="addToCart(dish)">加入购物车</button>-->
+                      </div>
+                    </b-col>
+                  </b-row>
                 </div>
                 <!--                <menu-item v-for="dish in category.dishes" :key="dish.id" :item="dish"></menu-item>-->
               </b-row>
@@ -45,49 +54,6 @@
     </b-container>
 
 
-    <!--    <b-container fluid id="menu">-->
-    <!--      <b-row>-->
-    <!--        &lt;!&ndash;   菜品导航     &ndash;&gt;-->
-    <!--        <b-col cols="3">-->
-    <!--          <div id="list-nav" style="width: 100%; height: 800px">-->
-    <!--            <b-list-group v-b-scrollspy:listgroup-ex>-->
-    <!--              <b-list-group-item class="list-nav-item" v-for="(category, index) in categories" :key="index"-->
-    <!--                                 href="`#${category.id}`" :active="activeSection === category.id">-->
-    <!--                {{ category.category }}-->
-    <!--              </b-list-group-item>-->
-    <!--            </b-list-group>-->
-    <!--          </div>-->
-    <!--        </b-col>-->
-    <!--        &lt;!&ndash;菜品内容&ndash;&gt;-->
-    <!--        <b-col cols="9">-->
-    <!--          <div id="listgroup-ex" v-for="(category,index) in categorys" :key="index"-->
-    <!--               style="position:relative; overflow-y:auto; height:800px" :id="category.id" class="menu-section">-->
-    <!--            <h4>{{category.category}}</h4>-->
-    <!--            <div class="card" v-for="(food,index2) in category.foods" :key="index2">-->
-    <!--              <img class="card-img-top" :src="food.image" :alt="food.name">-->
-    <!--              <div class="card-body">-->
-    <!--                <h5 class="card-title">{{ food.name }}</h5>-->
-    <!--                <p class="card-text">{{ food.description }}</p>-->
-    <!--                <p class="card-text">价格：{{ food.price }}元</p>-->
-    <!--                <button class="btn btn-primary" @click="addToCart(food)">加入购物车</button>-->
-    <!--              </div>-->
-    <!--            </div>-->
-    <!--                      <h4 id="list-item-1">Item 1</h4>&ndash;&gt;-->
-    <!--                   <ul>-->
-    <!--                          <li></li>-->
-    <!--            &lt;!&ndash;            </ul>&ndash;&gt;-->
-    <!--            &lt;!&ndash;            <h4 id="list-item-2">Item 2</h4>&ndash;&gt;-->
-    <!--            &lt;!&ndash;            <p>{{ text }}</p>&ndash;&gt;-->
-    <!--            &lt;!&ndash;            <h4 id="list-item-3">Item 3</h4>&ndash;&gt;-->
-    <!--            &lt;!&ndash;            <p>{{ text }}</p>&ndash;&gt;-->
-    <!--            &lt;!&ndash;            <h4 id="list-item-4">Item 4</h4>&ndash;&gt;-->
-    <!--            &lt;!&ndash;            <p>{{ text }}</p>&ndash;&gt;-->
-    <!--            &lt;!&ndash;            <h4 id="list-item-5">Item 5</h4>&ndash;&gt;-->
-    <!--            &lt;!&ndash;            <p>{{ text }}</p>&ndash;&gt;-->
-    <!--          </div>-->
-    <!--        </b-col>-->
-    <!--      </b-row>-->
-    <!--    </b-container>-->
     <!--  菜品主页结束  -->
     <!--   底部购物车 -->
     <div>
@@ -108,20 +74,42 @@
           </div>
           <!--已选商品-->
           <div id="selected">
-            <div class="card-title">
+            <div class="card-title" style="margin-bottom: 5px">
               <span class="yuanLine">.</span>
               <div class="yuantitle">已选商品</div>
             </div>
             <!--已选商品列表-->
-            <div>
-              <ul class="list-group">
-                <li class="list-group-item1" v-for="item in cart">
-                  {{ item.name }} -￥ {{ item.price }}元
-                  <button class="btn btn-danger btn-sm" @click="removeFromCart(item)">-</button>
-                  {{ item.quantity }}
-                  <button class="btn btn-danger btn-sm" @click="addToCart(item)">+</button>
-                </li>
-              </ul>
+<!--            <div>-->
+              <div class="list-group2">
+                <div class="list-group-item1" v-for="item in cart">
+                  <van-card
+                      :price="item.price"
+                      :desc="item.description"
+                      :title="item.dish"
+                      :thumb="item.dishPhoto"
+                      style="text-align: left; background-color: #FFFFFF"
+                  >
+                    <template #footer>
+                      <van-button icon="minus" color="#fab9c0" plain round @click="removeFromCart(item)"
+                                  size="mini"></van-button>
+                      {{ item.number }}
+                      <van-button icon="plus" type="warning" round @click="addToCart(item)" size="mini"></van-button>
+                    </template>
+                  </van-card>
+                </div>
+<!--              </div>-->
+              <!--              <ul class="list-group">-->
+              <!--                <li class="list-group-item1" v-for="item in cart">-->
+              <!--                  {{ item.dish }} -￥ {{ item.price }}元-->
+              <!--                  &lt;!&ndash;                  <button class="btn btn-danger btn-sm" @click="removeFromCart(item)">-</button>&ndash;&gt;-->
+              <!--                  <van-button icon="minus" color="#fab9c0" plain round @click="removeFromCart(item)"-->
+              <!--                              size="mini"></van-button>-->
+              <!--                  {{ item.quantity }}-->
+              <!--                  <van-button icon="plus" type="warning" round @click="addToCart(item)" size="mini"></van-button>-->
+              <!--                  &lt;!&ndash;                  <button class="btn btn-danger btn-sm" @click="addToCart(item)"  color="#ee0a24">+</button>&ndash;&gt;-->
+              <!--                  &lt;!&ndash;                  <van-stepper :v-model="item.quantity" theme="round" button-size="22" disable-input  @plus="addToCart(item)" @minus="removeFromCart(item)"/>&ndash;&gt;-->
+              <!--                </li>-->
+              <!--              </ul>-->
             </div>
           </div>
           <div class="gif">
@@ -169,13 +157,13 @@
       </b-sidebar>
 
     </div>
-<!--footer-->
+    <!--footer-->
     <MenuFooter></MenuFooter>
   </div>
 </template>
 
 <script>
-import {BListGroup, BListGroupItem, BSidebar, BButton, BImg, VBScrollspy,  VBScrollspyPlugin,} from 'bootstrap-vue'
+import {BListGroup, BListGroupItem, BSidebar, BButton, BImg, VBScrollspy, VBScrollspyPlugin,} from 'bootstrap-vue'
 import Upbar from "@/components/Upbar.vue";
 import MenuFooter from "@/components/MenuFooter.vue";
 
@@ -483,7 +471,10 @@ export default {
   methods: {
     //跳转支付页面
     gotoPayPage() {
-      this.$router.push({path: '/user/order'}); //测试状态，还没有支付页面
+      sessionStorage.setItem("cart", this.cart);
+      sessionStorage.setItem("totalPrice", this.totalPrice);
+      this.$router.push({path: '/user/pay'}); //测试状态，还没有支付页面
+
     },
 
     //获取菜品信息
@@ -532,11 +523,11 @@ export default {
       this.totalprice -= item.price;
       var index = this.cart.indexOf(item);
       console.log(item)
-      if (item.quantity === 1) {
+      if (item.number === 1) {
         this.cart.splice(index, 1);
         return;
       } else {
-        item.quantity -= 1;
+        item.number -= 1;
       }
 
     },
@@ -549,19 +540,26 @@ export default {
       this.totalprice += dish.price; //总价
       /* 检查购物车中是否已经有该商品 */
       var index = this.cart.findIndex(function (i) {
-        return i.id === dish.id;
+        console.log(i)
+        return i.dishID === dish.dishID;
       });
+      // var index = this.cart.findIndex(function (i) {
+      //   console.log(i)
+      //   return i.id === dish.dishID;
+      // });
       if (index === -1) {
         /* 如果购物车中没有该商品，则将商品添加到购物车 */
         this.cart.push({
-          id: dish.dishID,
-          name: dish.dish,
+          dishID: dish.dishID,
+          dish: dish.dish,
           price: dish.price,
-          quantity: 1
+          number: 1,
+          description: dish.description,
+          dishPhoto: dish.dishPhoto
         });
       } else {
         /* 如果购物车中已经有该商品，则将商品数量加1 */
-        this.cart[index].quantity += 1;
+        this.cart[index].number += 1;
 
       }
     }
@@ -573,7 +571,6 @@ export default {
 
 <style scoped>
 /*每个菜品列表，加入购物车*/
-
 
 
 #menu {
@@ -631,9 +628,15 @@ export default {
   border-top: 1px solid #e5e5e5;
 }
 
+/*商品列表*/
+.card {
+  background: none;
+}
+
 /*侧边购物车按钮*/
 #cartbutton {
-  background-color: #ffcd56;
+  /*background-color: #ffcd56;*/
+  background-color: #ed662cd4;
   /* 形状圆形 */
   border-bottom-left-radius: 30px;
   border-top-left-radius: 30px
@@ -683,7 +686,22 @@ export default {
 }
 
 #cartbutton {
-  background: #ffcd56;
+  /*background: #ffcd56;*/
+  background-color: #ed662cd4;
+}
+
+#addtocartmenu {
+  margin-left: 43px
+}
+
+.card-body {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.card-message {
+  padding-left: 0;
+  padding-right: 0;
 }
 
 
