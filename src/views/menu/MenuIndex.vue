@@ -471,9 +471,12 @@ export default {
   methods: {
     //跳转支付页面
     gotoPayPage() {
-      sessionStorage.setItem("cart", this.cart);
-      sessionStorage.setItem("totalPrice", this.totalPrice);
-      this.$router.push({path: '/user/pay'}); //测试状态，还没有支付页面
+      sessionStorage.setItem("cart",  JSON.stringify(this.cart)); //sessionStorage不能直接存储数组对象，要先转为json
+      console.log(this.cart)
+      console.log(JSON.parse(sessionStorage.getItem('cart'))) //打印比对一下
+      sessionStorage.setItem("totalprice", this.totalprice);
+      console.log(this.totalprice)
+      this.$router.push({path: '/user/pay'}); //跳转到支付
 
     },
 

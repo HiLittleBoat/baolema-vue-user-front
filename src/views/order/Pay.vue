@@ -1,67 +1,67 @@
 <template>
   <div id="body">
+
     <!--返回按钮-->
     <van-nav-bar
         title="订单确认"
         left-arrow
         @click-left="onClickLeft"
     />
-<!--    <div id="backtitle">-->
-<!--      <van-icon name="arrow-left" @click="back" id="backicon"/>-->
-<!--    </div>-->
+    <!--    <div id="backtitle">-->
+    <!--      <van-icon name="arrow-left" @click="back" id="backicon"/>-->
+    <!--    </div>-->
 
     <!--餐品详情-->
     <div id="order-detail-payed-title" style="text-align: left">
       <p><strong>订单详情</strong></p>
-      <van-divider />
+      <van-divider/>
     </div>
     <div id="order-detail-payed" v-for="(dish, index) in orderDetailList">
       <van-card
           :num="`${dish.number}`"
-          :price="`${dish.dishAmount/dish.number}`"
+          :price="`${dish.price}`"
           :desc="`${dish.description}`"
-          :title="`${dish.dishName}`"
+          :title="`${dish.dish}`"
           :thumb="`${dish.dishPhoto}`"
-          style="background-color: #ffffff; text-align: left;"
+          style="background-color: #ffffff; text-align: left"
       />
-<!--      <van-divider dashed></van-divider>-->
+      <!--      <van-divider dashed></van-divider>-->
     </div>
-
 
 
     <!--会员优惠-->
     <div>
-<!--      <van-divider dashed></van-divider>-->
+      <!--      <van-divider dashed></van-divider>-->
       <div id="order-detail-payed-member" style="text-align: left" v-if="vipLevel!=0">
 
         <p><strong>会员优惠</strong></p>
-        <van-divider />
-<!--        <p>您是v{{vipLevel}}尊享会员,可享受{{vipList[vipLevel]}}折优惠</p>-->
-<!--优惠券列表-->
+        <van-divider/>
+        <!--        <p>您是v{{vipLevel}}尊享会员,可享受{{vipList[vipLevel]}}折优惠</p>-->
+        <!--优惠券列表-->
 
         <!-- 优惠券单元格 -->
         <div>
-        <van-coupon-cell
-            :coupons="coupons"
-            :chosen-coupon="chosenCoupon"
-            @click="showList = true"
-        />
-        <!-- 优惠券列表 -->
-        <van-popup
-            show-exchange-bar="false"
-            v-model="showList"
-            round
-            position="bottom"
-            style="height: 90%; padding-top: 4px;"
-        >
-          <van-coupon-list
+          <van-coupon-cell
               :coupons="coupons"
               :chosen-coupon="chosenCoupon"
-              :disabled-coupons="disabledCoupons"
-              @change="onChange"
-              @exchange="onExchange"
+              @click="showList = true"
           />
-        </van-popup>
+          <!-- 优惠券列表 -->
+          <van-popup
+              show-exchange-bar="false"
+              v-model="showList"
+              round
+              position="bottom"
+              style="height: 90%; padding-top: 4px;"
+          >
+            <van-coupon-list
+                :coupons="coupons"
+                :chosen-coupon="chosenCoupon"
+                :disabled-coupons="disabledCoupons"
+                @change="onChange"
+                @exchange="onExchange"
+            />
+          </van-popup>
         </div>
       </div>
     </div>
@@ -69,14 +69,17 @@
     <!--总价格-->
     <div id="order-detail-payed-total" style="text-align: right">
       <van-divider dashed></van-divider>
-      <p v-if="vipLevel!=0">已优惠 <strong style="color: red">￥ {{vipAmount}}</strong>
-      实付 ￥ <strong>{{ totalAmount }}</strong></p>
+      <p v-if="vipLevel!=0">已优惠 <strong style="color: red">￥ {{ vipAmount }}</strong>
+        实付 ￥ <strong>{{ totalAmount }}</strong></p>
 
     </div>
     <van-divider dashed></van-divider>
 
     <!--footer-->
-    <van-submit-bar :price="9370" button-text="去结算" @submit="onSubmit" />
+    <van-submit-bar :price="totalAmount*100" button-text="提交订单" @submit="onSubmit"/>
+
+<!--支付表单-->
+    <div id = "payform"></div>
 
   </div>
 </template>
@@ -121,49 +124,49 @@ export default {
       vipList: [0, 9, 8, 7, 6, 5],
 
       //订单总价
-      totalAmount: 93.7,
+      totalAmount: '',
       //订单菜品列表
       orderDetailList: [
-        {
-          dishName: "汉堡",
-          description: "好吃的汉堡",
-          number: 3,
-          price: 15.0,
-          dishAmount: 39.0,
-          dishPhoto: "https://i.postimg.cc/NFpkQDCW/image.png"
-        },
-        {
-          dishName: "汉堡",
-          description: "好吃的汉堡",
-          number: 1,
-          price: 15.0,
-          dishAmount: 15.0,
-          dishPhoto: "https://i.postimg.cc/NFpkQDCW/image.png"
-        },
-        {
-          dishName: "汉堡",
-          description: "好吃的汉堡",
-          number: 2,
-          price: 15.0,
-          dishAmount: 39.0,
-          dishPhoto: "https://i.postimg.cc/NFpkQDCW/image.png"
-        },
-        {
-          dishName: "汉堡",
-          description: "好吃的汉堡",
-          number: 3,
-          price: 15.0,
-          dishAmount: 39.0,
-          dishPhoto: "https://i.postimg.cc/NFpkQDCW/image.png"
-        },
-        {
-          dishName: "汉堡",
-          description: "好吃的汉堡",
-          number: 3,
-          price: 15.0,
-          dishAmount: 39.0,
-          dishPhoto: "https://i.postimg.cc/NFpkQDCW/image.png"
-        }
+        // {
+        //   dishName: "汉堡",
+        //   description: "好吃的汉堡",
+        //   number: 3,
+        //   price: 15.0,
+        //   dishAmount: 39.0,
+        //   dishPhoto: "https://i.postimg.cc/NFpkQDCW/image.png"
+        // },
+        // {
+        //   dishName: "汉堡",
+        //   description: "好吃的汉堡",
+        //   number: 1,
+        //   price: 15.0,
+        //   dishAmount: 15.0,
+        //   dishPhoto: "https://i.postimg.cc/NFpkQDCW/image.png"
+        // },
+        // {
+        //   dishName: "汉堡",
+        //   description: "好吃的汉堡",
+        //   number: 2,
+        //   price: 15.0,
+        //   dishAmount: 39.0,
+        //   dishPhoto: "https://i.postimg.cc/NFpkQDCW/image.png"
+        // },
+        // {
+        //   dishName: "汉堡",
+        //   description: "好吃的汉堡",
+        //   number: 3,
+        //   price: 15.0,
+        //   dishAmount: 39.0,
+        //   dishPhoto: "https://i.postimg.cc/NFpkQDCW/image.png"
+        // },
+        // {
+        //   dishName: "汉堡",
+        //   description: "好吃的汉堡",
+        //   number: 3,
+        //   price: 15.0,
+        //   dishAmount: 39.0,
+        //   dishPhoto: "https://i.postimg.cc/NFpkQDCW/image.png"
+        // }
 
       ],
     }
@@ -171,15 +174,28 @@ export default {
   methods: {
     //加载订单信息
     loadOrderDetail() {
-      this.orderDetailList = JSON.parse(sessionStorage.getItem("cart"));
+      console.log(sessionStorage.getItem('cart'))
+      this.orderDetailList = JSON.parse(sessionStorage.getItem("cart"));//取数组的时候，也先再解析成json
       this.totalAmount = sessionStorage.getItem("totalprice");
     },
 
     //加载会员等级
     loadVipLevel() {
       //先从sessionStorage中获取用户id
+      var customerID = sessionStorage.getItem("customerID")
+      //根据id 查询会员等级，发优惠券
+      //还没写完
+      this.$api({
+        url:'',
+        method:'get',
+        params:{
+          customerID:customerID
+        }
+      }).then( res =>{
+        console.log(res)
+        this.vipLevel=res.data.rank; //名字不一定对，再改
+      })
 
-      //
 
     },
 
@@ -197,16 +213,48 @@ export default {
       this.$router.go(-1);
     },
 
+
     //提交订单
     onSubmit() {
       this.$toast('提交成功');
-      this.$router.push({path: '/user/order'});
+      //this.$router.push({path: '/user/order'});
+      console.log(this.totalAmount)
+      this.$api({
+        url: '/alipay/pay',
+        method: 'get', //这个是method,用methods会默认post
+        params: {
+          subject: "order",
+          traceNo: 231214,
+          totalAmount: this.totalAmount
+        }
+      }).then(res => {
+        //  this.htmls = res;
+        //console.log(0000)
+        console.log(11)
+        console.log(res)
+        console.log(res.data)
+        document.querySelector("#payform").innerHTML = res.data;
+
+        const div = document.createElement('div') // 创建div
+        div.innerHTML = res // 将返回的form 放入div
+        document.body.appendChild(div)
+        document.forms[0].submit()
+        console.log(1111)
+        // console.log(res)
+      })
+          .catch(function (error) {
+        console.log(2222)
+         console.log(error)
+      })
+      // /alipay/pay?subject=order&traceNo=222321&totalAmount=100
       // this.orderDetailList = sessionStorage.getItem("cart");
     }
 
   },
   mounted() {
-    loadOrderDetail();
+    // loadOrderDetail();
+    this.loadOrderDetail();
+    this.loadVipLevel();
 
   }
 }
@@ -219,7 +267,7 @@ export default {
 }
 
 /*会员优惠*/
-#order-detail-payed-member{
+#order-detail-payed-member {
   width: 95%;
   position: static;
   margin-left: 10px;
@@ -232,7 +280,7 @@ export default {
 }
 
 
-#order-detail-payed-title{
+#order-detail-payed-title {
   width: 95%;
   position: static;
   margin-top: 15px;
@@ -244,7 +292,7 @@ export default {
   background: #ffffff;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-    /*border-radius: 10px;*/
+  /*border-radius: 10px;*/
 }
 
 #order-detail-payed {

@@ -199,6 +199,9 @@ export default {
           console.log(res.code)
           if(res.code === 20051){
             // 登录成功
+            console.log(res)
+            sessionStorage.setItem('phoneNumber',this.phoneNumber1)
+            sessionStorage.setItem('customerID', res.data) //这个返回的data里返回的用户id
             this.$router.push({path: '/user/menu'})
           }else {
             // 登录失败,用bootstrap警告提醒框提醒
