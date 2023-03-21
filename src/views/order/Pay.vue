@@ -78,8 +78,8 @@
     <!--footer-->
     <van-submit-bar :price="finalAmount*100" button-text="提交订单" @submit="onSubmit"/>
 
-<!--支付表单-->
-    <div id = "payform"></div>
+    <!--支付表单-->
+    <div id="payform"></div>
 
   </div>
 </template>
@@ -105,7 +105,7 @@ const coupon2 = {
   condition: '无使用门槛',
   reason: '', //不能使用的理由
   description: '您是v2尊享会员,可享受8.8折优惠',
-  value:  0, // 优惠金额,单位分
+  value: 0, // 优惠金额,单位分
   name: '会员专享折扣',
   startAt: 1672538963, // 2023-01-01
   endAt: 1893456000,//2023-12-31
@@ -138,7 +138,8 @@ export default {
 
       //订单总价
       totalAmount: 0,
-      finalAmount:0,
+      finalAmount: 0,
+      orderList : [],//最后提交用的 订单数据  //[{dishID  , number, dishAmount}]
       //订单菜品列表
       orderDetailList: [
         // {
@@ -183,7 +184,8 @@ export default {
         // }
 
       ],
-      customerID:0
+      customerID: 0
+
     }
   },
   methods: {
@@ -193,6 +195,18 @@ export default {
       this.orderDetailList = JSON.parse(sessionStorage.getItem("cart"));//取数组的时候，也先再解析成json
       this.totalAmount = sessionStorage.getItem("totalprice");
       this.finalAmount = this.totalAmount; //默认没选优惠券，等选完之后，再更改最终金额
+
+      // 将orderList部分属性进行存储，方便最后传递给前端
+      // 遍历原先数组，以id的值作为数组的key，将部分数据存储
+      for (let i = 0; i < this.orderDetailList.length; i++) {
+        this.orderList.push({
+          dishID: this.orderDetailList[i].dishID,
+          number: this.orderDetailList[i].number,
+          dishAmount: this.orderDetailList[i].price * this.orderDetailList[i].number
+        })
+        //[{dishID  , number, dishAmount}]
+      }
+
     },
 
     //加载会员等级
@@ -203,27 +217,26 @@ export default {
       console.log(this.customerID)
       //根据id 查询会员等级，发优惠券
       this.$api({
-        url:'/customer/'+this.customerID,
-        method:'get',
+        url: '/customer/' + this.customerID,
+        method: 'get',
         // params:{
         //   customerID:customerID
         // }
-      }).then( res =>{
+      }).then(res => {
         console.log(res)
-        this.vipLevel=res.data.rank; //vip等级
-        if(this.vipLevel===1){
-          coupon1.value = this.totalAmount*5 //设置优惠券金额
+        this.vipLevel = res.data.rank; //vip等级
+        if (this.vipLevel === 1) {
+          coupon1.value = this.totalAmount * 5 //设置优惠券金额
           //this.vipAmount = this.totalAmount*0.95
           this.coupons.push(coupon1)
-        }else if(this.vipLevel===2){
-          coupon2.value = this.totalAmount*12 //设置优惠券金额
+        } else if (this.vipLevel === 2) {
+          coupon2.value = this.totalAmount * 12 //设置优惠券金额
           //this.vipAmount = this.totalAmount*0.88
           this.coupons.push(coupon2)
         }
 
 
       })
-
 
 
     },
@@ -233,18 +246,18 @@ export default {
       console.log(index)
       this.showList = false;
       this.chosenCoupon = index;
-      if(index === -1){
+      if (index === -1) {
         this.vipAmount = 0;
-      }else{
-        if(this.vipLevel ===1){
-          this.vipAmount = coupon1.value/100
+      } else {
+        if (this.vipLevel === 1) {
+          this.vipAmount = coupon1.value / 100
 
-        }else if(this.vipLevel ===2){
-          this.vipAmount = coupon2.value/100
+        } else if (this.vipLevel === 2) {
+          this.vipAmount = coupon2.value / 100
 
         }
       }
-      this.finalAmount = this.totalAmount-this.vipAmount
+      this.finalAmount = this.totalAmount - this.vipAmount
 
 
     },
@@ -261,9 +274,25 @@ export default {
 
     //提交订单
     onSubmit() {
+
       this.$toast('提交成功');
       //this.$router.push({path: '/user/order'});
       console.log(this.totalAmount)
+      console.log(this.orderList)
+      console.log(this.customerID)
+      // 存订单对象
+      this.$api({
+        url: '/orderinfo/submit',
+        method: 'post', //这个是method,用methods会默认post
+        data: {
+          customerID: parseInt(sessionStorage.getItem("customerID")), //session里取出来的是string,所以要转为int
+          status: 0,
+          orderDetailList: this.orderList,//[{dishID  , number, dishAmount}]
+          totalAmount: this.finalAmount,
+        }
+      })
+
+      //支付功能
       this.$api({
         url: '/alipay/pay',
         method: 'get', //这个是method,用methods会默认post
@@ -288,9 +317,9 @@ export default {
         // console.log(res)
       })
           .catch(function (error) {
-        console.log(2222)
-         console.log(error)
-      })
+            console.log(2222)
+            console.log(error)
+          })
       // /alipay/pay?subject=order&traceNo=222321&totalAmount=100
       // this.orderDetailList = sessionStorage.getItem("cart");
     }
