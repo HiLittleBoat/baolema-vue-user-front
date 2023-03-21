@@ -70,13 +70,13 @@
     <div id="order-detail-payed-total" style="text-align: right">
       <van-divider dashed></van-divider>
       <p v-if="vipLevel!=0">已优惠 <strong style="color: red">￥ {{ vipAmount }}</strong>
-        实付 ￥ <strong>{{ totalAmount }}</strong></p>
+        实付 ￥ <strong>{{ finalAmount }}</strong></p>
 
     </div>
     <van-divider dashed></van-divider>
 
     <!--footer-->
-    <van-submit-bar :price="totalAmount*100" button-text="提交订单" @submit="onSubmit"/>
+    <van-submit-bar :price="finalAmount*100" button-text="提交订单" @submit="onSubmit"/>
 
 <!--支付表单-->
     <div id = "payform"></div>
@@ -87,16 +87,29 @@
 <script>
 import {CouponCell, CouponList, Popup, SubmitBar} from 'vant';
 
-const coupon = {
+const coupon1 = {
   available: 1,
   condition: '无使用门槛',
-  reason: '',
-  description: '您是v1尊享会员,可享受9.8折优惠',
-  value: 150, // 优惠金额,单位分
+  reason: '', //不能使用的理由
+  description: '您是v1尊享会员,可享受9.5折优惠',
+  value: 0, // 优惠金额,单位分
   name: '会员专享折扣',
   startAt: 1672538963, // 2023-01-01
   endAt: 1893456000,//2023-12-31
   valueDesc: '9.8',
+  unitDesc: '折',
+};
+
+const coupon2 = {
+  available: 1,
+  condition: '无使用门槛',
+  reason: '', //不能使用的理由
+  description: '您是v2尊享会员,可享受8.8折优惠',
+  value:  0, // 优惠金额,单位分
+  name: '会员专享折扣',
+  startAt: 1672538963, // 2023-01-01
+  endAt: 1893456000,//2023-12-31
+  valueDesc: '8.8',
   unitDesc: '折',
 };
 
@@ -114,9 +127,9 @@ export default {
       //优惠券列表
       showList: false,
       chosenCoupon: -1,
-      coupons: [coupon],
-      disabledCoupons: [coupon],
-      vipAmount: 3.3,
+      coupons: [],
+      //disabledCoupons: [coupon],
+      vipAmount: 0,
 
       //会员等级
       vipLevel: 1,
@@ -124,7 +137,8 @@ export default {
       vipList: [0, 9, 8, 7, 6, 5],
 
       //订单总价
-      totalAmount: '',
+      totalAmount: 0,
+      finalAmount:0,
       //订单菜品列表
       orderDetailList: [
         // {
@@ -169,6 +183,7 @@ export default {
         // }
 
       ],
+      customerID:0
     }
   },
   methods: {
@@ -177,33 +192,63 @@ export default {
       console.log(sessionStorage.getItem('cart'))
       this.orderDetailList = JSON.parse(sessionStorage.getItem("cart"));//取数组的时候，也先再解析成json
       this.totalAmount = sessionStorage.getItem("totalprice");
+      this.finalAmount = this.totalAmount; //默认没选优惠券，等选完之后，再更改最终金额
     },
 
     //加载会员等级
     loadVipLevel() {
       //先从sessionStorage中获取用户id
-      var customerID = sessionStorage.getItem("customerID")
+      this.customerID = sessionStorage.getItem("customerID")
+      //this.customerID = 2;
+      console.log(this.customerID)
       //根据id 查询会员等级，发优惠券
-      //还没写完
       this.$api({
-        url:'',
+        url:'/customer/'+this.customerID,
         method:'get',
-        params:{
-          customerID:customerID
-        }
+        // params:{
+        //   customerID:customerID
+        // }
       }).then( res =>{
         console.log(res)
-        this.vipLevel=res.data.rank; //名字不一定对，再改
+        this.vipLevel=res.data.rank; //vip等级
+        if(this.vipLevel===1){
+          coupon1.value = this.totalAmount*5 //设置优惠券金额
+          //this.vipAmount = this.totalAmount*0.95
+          this.coupons.push(coupon1)
+        }else if(this.vipLevel===2){
+          coupon2.value = this.totalAmount*12 //设置优惠券金额
+          //this.vipAmount = this.totalAmount*0.88
+          this.coupons.push(coupon2)
+        }
+
+
       })
+
 
 
     },
 
     //优惠券列表
     onChange(index) {
+      console.log(index)
       this.showList = false;
       this.chosenCoupon = index;
+      if(index === -1){
+        this.vipAmount = 0;
+      }else{
+        if(this.vipLevel ===1){
+          this.vipAmount = coupon1.value/100
+
+        }else if(this.vipLevel ===2){
+          this.vipAmount = coupon2.value/100
+
+        }
+      }
+      this.finalAmount = this.totalAmount-this.vipAmount
+
+
     },
+    //兑换优惠券回调，不使用
     onExchange(code) {
       this.coupons.push(coupon);
     },
@@ -225,7 +270,7 @@ export default {
         params: {
           subject: "order",
           traceNo: 231214,
-          totalAmount: this.totalAmount
+          totalAmount: this.finalAmount
         }
       }).then(res => {
         //  this.htmls = res;
@@ -261,6 +306,11 @@ export default {
 </script>
 
 <style scoped>
+
+/*.van-card__content{*/
+/*  */
+/*}*/
+
 /*body*/
 #body {
   background-color: #f5f5f5;
