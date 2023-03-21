@@ -292,7 +292,7 @@ export default {
         }
       })
 
-      //支付功能
+      //支付功能，这里是电脑接口，手机端不是很好看
       this.$api({
         url: '/alipay/pay',
         method: 'get', //这个是method,用methods会默认post
