@@ -7,6 +7,7 @@
 3. 安装依赖包
 > 登录页面需要的依赖包
 ```angular2html
+npm install vue bootstrap bootstrap-vue
 npm install node-sass -D
 npm install sass-loader -D
 npm install paper

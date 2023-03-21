@@ -290,36 +290,47 @@ export default {
           orderDetailList: this.orderList,//[{dishID  , number, dishAmount}]
           totalAmount: this.finalAmount,
         }
+      }).then(res =>{
+        console.log(res)
+        sessionStorage.setItem('uuid',res.data.uuid)
+        sessionStorage.setItem('orderID', res.data.orderID)
+
+        //支付过程先隐去了
+        this.$router.push( {path:'/user/order'})// 调转到订单页面
       })
+      //     .then({
+      //
+      //   //this.$router.push(path: '/user/order')
+      // })
 
       //支付功能，这里是电脑接口，手机端不是很好看
-      this.$api({
-        url: '/alipay/pay',
-        method: 'get', //这个是method,用methods会默认post
-        params: {
-          subject: "order",
-          traceNo: 231214,
-          totalAmount: this.finalAmount
-        }
-      }).then(res => {
-        //  this.htmls = res;
-        //console.log(0000)
-        console.log(11)
-        console.log(res)
-        console.log(res.data)
-        document.querySelector("#payform").innerHTML = res.data;
-
-        const div = document.createElement('div') // 创建div
-        div.innerHTML = res // 将返回的form 放入div
-        document.body.appendChild(div)
-        document.forms[0].submit()
-        console.log(1111)
-        // console.log(res)
-      })
-          .catch(function (error) {
-            console.log(2222)
-            console.log(error)
-          })
+      // this.$api({
+      //   url: '/alipay/pay',
+      //   method: 'get', //这个是method,用methods会默认post
+      //   params: {
+      //     subject: "order",
+      //     traceNo: 231214,
+      //     totalAmount: this.finalAmount
+      //   }
+      // }).then(res => {
+      //   //  this.htmls = res;
+      //   //console.log(0000)
+      //   console.log(11)
+      //   console.log(res)
+      //   console.log(res.data)
+      //   document.querySelector("#payform").innerHTML = res.data;
+      //
+      //   const div = document.createElement('div') // 创建div
+      //   div.innerHTML = res // 将返回的form 放入div
+      //   document.body.appendChild(div)
+      //   document.forms[0].submit()
+      //   console.log(1111)
+      //   // console.log(res)
+      // })
+      //     .catch(function (error) {
+      //       console.log(2222)
+      //       console.log(error)
+      //     })
       // /alipay/pay?subject=order&traceNo=222321&totalAmount=100
       // this.orderDetailList = sessionStorage.getItem("cart");
     }

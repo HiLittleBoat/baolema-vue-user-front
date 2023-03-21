@@ -194,6 +194,24 @@ export default {
   },
 
   methods: {
+
+    //初始化页面，获取订单数据
+    getOrderDetial(){
+      //先请求后端数据，接口文档51,也不一定是
+      this.$api({
+        url:'/'
+      })
+      //先获取订单id 拼接成取餐码
+
+      //获取订单状态
+
+      //获取订单详情
+
+      //获取订单信息
+
+
+    },
+
     // 点击 去评价，弹出评价框
     gotoRate() {
       // 如果没点已取餐，就不能评价
@@ -247,6 +265,7 @@ export default {
   }
   ,
   mounted() {
+    this.getOrderDetial()
     // this.getOrderDishes();
   }
 }
