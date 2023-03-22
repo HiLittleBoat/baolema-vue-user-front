@@ -7,13 +7,6 @@
       <b-row>
         <b-col cols="3">
           <div id="list-nav" style="width: 100%; height: 800px">
-            <!--            <b-nav pills vertical class="nav flex-column">-->
-            <!--&lt;!&ndash;              <b-scrollspy v-model="activeSection" class="menu-sidebar">  :active="activeSection === section.id"&ndash;&gt;-->
-            <!--                  <b-nav-item v-for="(category, index) in categories" :key="index" :href="`#${category.id}`"-->
-            <!--                              class="menu-section" >{{ category.category }}-->
-            <!--                  </b-nav-item>-->
-            <!--&lt;!&ndash;       :active="activeSection === category.id"        </b-scrollspy>&ndash;&gt;-->
-            <!--            </b-nav>-->
             <b-list-group v-b-scrollspy:listgroup-ex>
               <b-list-group-item class="list-nav-item" v-for="(category, index) in categories" :key="index"
                                  :href="`#p${category.categoryID}`">
@@ -40,12 +33,10 @@
                           <van-button icon="plus" type="warning" color="#ee0a24" round @click="addToCart(dish)"
                                       size="mini" id="addtocartmenu"></van-button>
                         </div>
-                        <!--     <button class="btn btn-warning" @click="addToCart(dish)">加入购物车</button>-->
                       </div>
                     </b-col>
                   </b-row>
                 </div>
-                <!--                <menu-item v-for="dish in category.dishes" :key="dish.id" :item="dish"></menu-item>-->
               </b-row>
             </div>
           </div>
@@ -79,7 +70,6 @@
               <div class="yuantitle">已选商品</div>
             </div>
             <!--已选商品列表-->
-<!--            <div>-->
               <div class="list-group2">
                 <div class="list-group-item1" v-for="item in cart">
                   <van-card
@@ -97,19 +87,6 @@
                     </template>
                   </van-card>
                 </div>
-<!--              </div>-->
-              <!--              <ul class="list-group">-->
-              <!--                <li class="list-group-item1" v-for="item in cart">-->
-              <!--                  {{ item.dish }} -￥ {{ item.price }}元-->
-              <!--                  &lt;!&ndash;                  <button class="btn btn-danger btn-sm" @click="removeFromCart(item)">-</button>&ndash;&gt;-->
-              <!--                  <van-button icon="minus" color="#fab9c0" plain round @click="removeFromCart(item)"-->
-              <!--                              size="mini"></van-button>-->
-              <!--                  {{ item.quantity }}-->
-              <!--                  <van-button icon="plus" type="warning" round @click="addToCart(item)" size="mini"></van-button>-->
-              <!--                  &lt;!&ndash;                  <button class="btn btn-danger btn-sm" @click="addToCart(item)"  color="#ee0a24">+</button>&ndash;&gt;-->
-              <!--                  &lt;!&ndash;                  <van-stepper :v-model="item.quantity" theme="round" button-size="22" disable-input  @plus="addToCart(item)" @minus="removeFromCart(item)"/>&ndash;&gt;-->
-              <!--                </li>-->
-              <!--              </ul>-->
             </div>
           </div>
           <div class="gif">
@@ -707,6 +684,9 @@ export default {
   padding-right: 0;
 }
 
+.card-img-top{
+  object-fit: cover;
+}
 
 .card-title {
   width: auto;

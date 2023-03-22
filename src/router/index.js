@@ -8,10 +8,16 @@ import Order from "@/views/order/Order.vue";
 import Pay from "@/views/order/Pay.vue";
 import Orderfooter from "@/views/order/Orderfooter.vue";
 import MenuFooter from "../components/MenuFooter.vue"
+import UserPage from "@/views/user/UserPage.vue";
 
 Vue.use(VueRouter)
 
 const routes = [
+    {
+        path: '/user/user',
+        name: 'UserPage',
+        component: UserPage
+    },
     {
         path: '/user/menu/footer',
         name: 'MenuFooter',
