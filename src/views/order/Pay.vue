@@ -137,9 +137,9 @@ export default {
       vipList: [0, 9, 8, 7, 6, 5],
 
       //订单总价
-      totalAmount: 0,
-      finalAmount: 0,
-      orderList : [],//最后提交用的 订单数据  //[{dishID  , number, dishAmount}]
+      totalAmount: 0.0,
+      finalAmount: 0.0,
+      orderList: [],//最后提交用的 订单数据  //[{dishID  , number, dishAmount}]
       //订单菜品列表
       orderDetailList: [
         // {
@@ -277,7 +277,7 @@ export default {
 
       this.$toast('提交成功');
       //this.$router.push({path: '/user/order'});
-      console.log(this.totalAmount)
+      //console.log(parseFloat(this.finalAmount.toFixed(2)))
       console.log(this.orderList)
       console.log(this.customerID)
       // 存订单对象
@@ -290,47 +290,50 @@ export default {
           orderDetailList: this.orderList,//[{dishID  , number, dishAmount}]
           totalAmount: this.finalAmount,
         }
-      }).then(res =>{
+      }).then(res => {
         console.log(res)
-        sessionStorage.setItem('uuid',res.data.uuid)
+        console.log(res.data.uuid)
+        sessionStorage.setItem('uuid', res.data.uuid)
         sessionStorage.setItem('orderID', res.data.orderID)
 
         //支付过程先隐去了
-        this.$router.push( {path:'/user/order'})// 调转到订单页面
+        //支付功能，这里是电脑接口，手机端不是很好看
+        // this.$api({
+        //   url: '/alipay/pay',
+        //   method: 'get', //这个是method,用methods会默认post
+        //   params: {
+        //     subject: "order",
+        //     traceNo: 1233121,
+        //     totalAmount: this.finalAmount
+        //   }
+        // }).then(res => {
+        //   //  this.htmls = res;
+        //   //console.log(0000)
+        //   console.log(11)
+        //   console.log(res)
+        //   console.log(res.data)
+        //   document.querySelector("#payform").innerHTML = res.data;
+        //
+        //   const div = document.createElement('div') // 创建div
+        //   div.innerHTML = res // 将返回的form 放入div
+        //   document.body.appendChild(div)
+        //   document.forms[0].submit()
+        //   console.log(1111)
+        //   // console.log(res)
+        // }).catch(function (error) {
+        //   console.log(2222)
+        //   console.log(error)
+        // })
+
+
+        // this.$router.push( {path:'/user/order'})// 调转到订单页面
       })
       //     .then({
       //
       //   //this.$router.push(path: '/user/order')
       // })
 
-      //支付功能，这里是电脑接口，手机端不是很好看
-      // this.$api({
-      //   url: '/alipay/pay',
-      //   method: 'get', //这个是method,用methods会默认post
-      //   params: {
-      //     subject: "order",
-      //     traceNo: 231214,
-      //     totalAmount: this.finalAmount
-      //   }
-      // }).then(res => {
-      //   //  this.htmls = res;
-      //   //console.log(0000)
-      //   console.log(11)
-      //   console.log(res)
-      //   console.log(res.data)
-      //   document.querySelector("#payform").innerHTML = res.data;
-      //
-      //   const div = document.createElement('div') // 创建div
-      //   div.innerHTML = res // 将返回的form 放入div
-      //   document.body.appendChild(div)
-      //   document.forms[0].submit()
-      //   console.log(1111)
-      //   // console.log(res)
-      // })
-      //     .catch(function (error) {
-      //       console.log(2222)
-      //       console.log(error)
-      //     })
+
       // /alipay/pay?subject=order&traceNo=222321&totalAmount=100
       // this.orderDetailList = sessionStorage.getItem("cart");
     }

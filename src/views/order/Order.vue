@@ -9,7 +9,7 @@
     <div id="truebody">
       <!--取餐码-->
       <div id="numberbar" style="text-align: left">
-        <h1 id="odernumber">230317001</h1>
+        <h1 id="odernumber">{{ orderNumber}}</h1>
         <van-badge content="取餐码" id="numberindex"/>
 
         <div id="text">
@@ -89,8 +89,8 @@
         <h5 style="text-align: left; ">订单信息</h5>
         <van-cell-group>
           <van-cell title="订单编号" :value="`${orderId}`"/>
-          <van-cell title="下单时间" :value="`${createdTime}`"/>
-          <van-cell title="取餐码" value="230317001"/>
+          <van-cell title="下单时间" :value="`${orderTime}`"/>
+          <van-cell title="取餐码" :value="`${orderNumber}`"/>
           <van-cell title="订单金额" :value="`￥${totalAmount}`"/>
         </van-cell-group>
       </div>
@@ -106,6 +106,16 @@
 
     <van-dialog v-model="show" title="对堡了嘛还满意吗？" show-cancel-button :beforeClose="beforeClose">
       <van-rate v-model="value" allow-half void-icon="star" void-color="##ffd21e" style="margin: 20px"/>
+      <van-cell-group inset>
+        <van-field
+            v-model="message"
+            rows="2"
+            autosize
+            label="留言"
+            type="textarea"
+            placeholder="请输入留言"
+        />
+      </van-cell-group>
     </van-dialog>
 
   </div>
@@ -127,12 +137,20 @@ export default {
   },
   data() {
     return {
+
+
+      //取餐号
+      orderNumber:"",
+
       // 评价弹出框状态
       show: false,
+
+      //订单评价
+      message:"",
       // 评价星级
       value: 2.5,
       // 步骤条
-      currentSwipeItem: 2,
+      currentSwipeItem: 1,
       step: [
         "确认中",
         "配餐中",
@@ -148,46 +166,46 @@ export default {
       ],
 
       //订单信息
-      orderId: "2023031712000001", //有可能是哈希后的，名字不一定对
-      orderTime: "2020-03-17 12:00:00",
-      totalAmount: 93.0,
+      orderId: "", //有可能是哈希后的，uuid
+      orderTime: "",
+      totalAmount: 0,
       //订单菜品列表
       orderDetailList: [
-        {
-          dishName: "汉堡",
-          description: "好吃的汉堡",
-          number: 3,
-          dishAmount: 39.0,
-          dishPhoto: "https://i.postimg.cc/NFpkQDCW/image.png"
-        },
-        {
-          dishName: "汉堡",
-          description: "好吃的汉堡",
-          number: 1,
-          dishAmount: 15.0,
-          dishPhoto: "https://i.postimg.cc/NFpkQDCW/image.png"
-        },
-        {
-          dishName: "汉堡",
-          description: "好吃的汉堡",
-          number: 2,
-          dishAmount: 39.0,
-          dishPhoto: "https://i.postimg.cc/NFpkQDCW/image.png"
-        },
-        {
-          dishName: "汉堡",
-          description: "好吃的汉堡",
-          number: 3,
-          dishAmount: 39.0,
-          dishPhoto: "https://i.postimg.cc/NFpkQDCW/image.png"
-        },
-        {
-          dishName: "汉堡",
-          description: "好吃的汉堡",
-          number: 3,
-          dishAmount: 39.0,
-          dishPhoto: "https://i.postimg.cc/NFpkQDCW/image.png"
-        }
+        // {
+        //   dishName: "汉堡",
+        //   description: "好吃的汉堡",
+        //   number: 3,
+        //   dishAmount: 39.0,
+        //   dishPhoto: "https://i.postimg.cc/NFpkQDCW/image.png"
+        // },
+        // {
+        //   dishName: "汉堡",
+        //   description: "好吃的汉堡",
+        //   number: 1,
+        //   dishAmount: 15.0,
+        //   dishPhoto: "https://i.postimg.cc/NFpkQDCW/image.png"
+        // },
+        // {
+        //   dishName: "汉堡",
+        //   description: "好吃的汉堡",
+        //   number: 2,
+        //   dishAmount: 39.0,
+        //   dishPhoto: "https://i.postimg.cc/NFpkQDCW/image.png"
+        // },
+        // {
+        //   dishName: "汉堡",
+        //   description: "好吃的汉堡",
+        //   number: 3,
+        //   dishAmount: 39.0,
+        //   dishPhoto: "https://i.postimg.cc/NFpkQDCW/image.png"
+        // },
+        // {
+        //   dishName: "汉堡",
+        //   description: "好吃的汉堡",
+        //   number: 3,
+        //   dishAmount: 39.0,
+        //   dishPhoto: "https://i.postimg.cc/NFpkQDCW/image.png"
+        // }
 
       ],
     }
@@ -199,15 +217,41 @@ export default {
     getOrderDetial(){
       //先请求后端数据，接口文档51,也不一定是
       this.$api({
-        url:'/'
+        url:'/orderinfo/orderdetail/'+sessionStorage.getItem('orderID'),
+        method:'get',
+      }).then(res=>{
+        console.log(res)
+        //获取订单id取后四位数，不够前边补0
+        let orderId=res.data.orderId
+        let orderIdStr=orderId.toString()
+        let orderIdStrLength=orderIdStr.length
+        if(orderIdStrLength<4){
+          for(let i=0;i<4-orderIdStrLength;i++){
+            orderIdStr="0"+orderIdStr
+          }
+        }else {
+          orderIdStr=orderIdStr.substring(orderIdStrLength-4,orderIdStrLength)
+        }
+
+        // 拼接成取餐码, 年最后一位+月日+订单id，订单id变成4位数，不够前边补零
+        this.orderNumber=res.data.createdTime.substring(3,10).replace(/-/g,"")+orderIdStr
+        console.log(this.orderNumber)
+
+        //获取订单状态
+        this.currentSwipeItem=res.data.status
+
+        //获取订单详情
+        this.orderDetailList=res.data.orderDetailList2
+
+        //获取订单信息
+        console.log(res)
+        this.orderId=res.data.uuid //orderId,存uuid吧
+
+        this.orderTime=res.data.createdTime
+        this.totalAmount=res.data.totalAmount
+
       })
-      //先获取订单id 拼接成取餐码
 
-      //获取订单状态
-
-      //获取订单详情
-
-      //获取订单信息
 
 
     },

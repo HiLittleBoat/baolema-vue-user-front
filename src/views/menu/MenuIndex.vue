@@ -190,264 +190,264 @@ export default {
       cartnum: 0, //购物车数量
       totalprice: 0, //总价
       categories: [
-        // {
-        //   categoryID: 1,
-        //   categoryName: "汉堡",
-        //   dishList: [
-        //     {
-        //       dishID: 1,
-        //       dish: "汉堡11",
-        //       description: "汉堡",
-        //       dishPhoto: "https://img.yzcdn.cn/vant/cat.jpeg",
-        //       price: 10,
-        //       stock: 100
-        //     },
-        //     {
-        //       dishID: 2,
-        //       dish: "汉堡",
-        //       description: "汉堡",
-        //       dishPhoto: "https://img.yzcdn.cn/vant/cat.jpeg",
-        //       price: 10,
-        //       stock: 100
-        //     },
-        //     {
-        //       dishID: 3,
-        //       dish: "汉堡",
-        //       description: "汉堡",
-        //       dishPhoto: "https://img.yzcdn.cn/vant/cat.jpeg",
-        //       price: 10,
-        //       stock: 100
-        //     },
-        //     {
-        //       dishID: 4,
-        //       dish: "汉堡",
-        //       description: "汉堡",
-        //       dishPhoto: "https://img.yzcdn.cn/vant/cat.jpeg",
-        //       price: 10,
-        //       stock: 100
-        //     },
-        //     // {
-        //     //   id: 3,
-        //     //   name: "汉堡",
-        //     //   description: "汉堡",
-        //     //   image: "https://img.yzcdn.cn/vant/cat.jpeg",
-        //     //   price: 10,
-        //     //   stock: 100
-        //     // },
-        //     // {
-        //     //   id: 4,
-        //     //   name: "汉堡",
-        //     //   description: "汉堡",
-        //     //   image: "https://img.yzcdn.cn/vant/cat.jpeg",
-        //     //   price: 10,
-        //     //   stock: 100
-        //     // },
-        //     // {
-        //     //   id: 5,
-        //     //   name: "汉堡",
-        //     //   description: "汉堡",
-        //     //   image: "https://img.yzcdn.cn/vant/cat.jpeg",
-        //     //   price: 10,
-        //     //   stock: 100
-        //     // },
-        //     // {
-        //     //   id: 6,
-        //     //   name: "汉堡",
-        //     //   description: "汉堡",
-        //     //   image: "https://img.yzcdn.cn/vant/cat.jpeg",
-        //     //   price: 10,
-        //     //   stock: 100
-        //     // },
-        //     // {
-        //     //   id: 7,
-        //     //   name: "汉堡",
-        //     //   description: "汉堡",
-        //     //   image: "https://img.yzcdn.cn/vant/cat.jpeg",
-        //     //   price: 10,
-        //     //   stock: 100
-        //     // },
-        //     // {
-        //     //   id: 8,
-        //     //   name: "汉堡",
-        //     //   description: "汉堡",
-        //     //   image: "https://img.yzcdn.cn/vant/cat.jpeg",
-        //     //   price: 10,
-        //     //   stock: 100
-        //     // }
-        //   ]
-        // },
-        // {
-        //   categoryID: 2,
-        //   categoryName: "汉堡",
-        //   dishList: [
-        //     {
-        //       dishID: 1,
-        //       dish: "汉堡11",
-        //       description: "汉堡",
-        //       dishPhoto: "https://img.yzcdn.cn/vant/cat.jpeg",
-        //       price: 10,
-        //       stock: 100
-        //     },
-        //     {
-        //       dishID: 2,
-        //       dish: "汉堡",
-        //       description: "汉堡",
-        //       dishPhoto: "https://img.yzcdn.cn/vant/cat.jpeg",
-        //       price: 10,
-        //       stock: 100
-        //     },
-        //     {
-        //       dishID: 3,
-        //       dish: "汉堡",
-        //       description: "汉堡",
-        //       dishPhoto: "https://img.yzcdn.cn/vant/cat.jpeg",
-        //       price: 10,
-        //       stock: 100
-        //     },
-        //     {
-        //       dishID: 4,
-        //       dish: "汉堡",
-        //       description: "汉堡",
-        //       dishPhoto: "https://img.yzcdn.cn/vant/cat.jpeg",
-        //       price: 10,
-        //       stock: 100
-        //     },
-        //     // {
-        //     //   id: 3,
-        //     //   name: "汉堡",
-        //     //   description: "汉堡",
-        //     //   image: "https://img.yzcdn.cn/vant/cat.jpeg",
-        //     //   price: 10,
-        //     //   stock: 100
-        //     // },
-        //     // {
-        //     //   id: 4,
-        //     //   name: "汉堡",
-        //     //   description: "汉堡",
-        //     //   image: "https://img.yzcdn.cn/vant/cat.jpeg",
-        //     //   price: 10,
-        //     //   stock: 100
-        //     // },
-        //     // {
-        //     //   id: 5,
-        //     //   name: "汉堡",
-        //     //   description: "汉堡",
-        //     //   image: "https://img.yzcdn.cn/vant/cat.jpeg",
-        //     //   price: 10,
-        //     //   stock: 100
-        //     // },
-        //     // {
-        //     //   id: 6,
-        //     //   name: "汉堡",
-        //     //   description: "汉堡",
-        //     //   image: "https://img.yzcdn.cn/vant/cat.jpeg",
-        //     //   price: 10,
-        //     //   stock: 100
-        //     // },
-        //     // {
-        //     //   id: 7,
-        //     //   name: "汉堡",
-        //     //   description: "汉堡",
-        //     //   image: "https://img.yzcdn.cn/vant/cat.jpeg",
-        //     //   price: 10,
-        //     //   stock: 100
-        //     // },
-        //     // {
-        //     //   id: 8,
-        //     //   name: "汉堡",
-        //     //   description: "汉堡",
-        //     //   image: "https://img.yzcdn.cn/vant/cat.jpeg",
-        //     //   price: 10,
-        //     //   stock: 100
-        //     // }
-        //   ]
-        // },
-        // {
-        //   categoryID: 3,
-        //   categoryName: "汉堡",
-        //   dishList: [
-        //     {
-        //       dishID: 1,
-        //       dish: "汉堡11",
-        //       description: "汉堡",
-        //       dishPhoto: "https://img.yzcdn.cn/vant/cat.jpeg",
-        //       price: 10,
-        //       stock: 100
-        //     },
-        //     {
-        //       dishID: 2,
-        //       dish: "汉堡",
-        //       description: "汉堡",
-        //       dishPhoto: "https://img.yzcdn.cn/vant/cat.jpeg",
-        //       price: 10,
-        //       stock: 100
-        //     },
-        //     {
-        //       dishID: 3,
-        //       dish: "汉堡",
-        //       description: "汉堡",
-        //       dishPhoto: "https://img.yzcdn.cn/vant/cat.jpeg",
-        //       price: 10,
-        //       stock: 100
-        //     },
-        //     {
-        //       dishID: 4,
-        //       dish: "汉堡",
-        //       description: "汉堡",
-        //       dishPhoto: "https://img.yzcdn.cn/vant/cat.jpeg",
-        //       price: 10,
-        //       stock: 100
-        //     },
-        //     // {
-        //     //   id: 3,
-        //     //   name: "汉堡",
-        //     //   description: "汉堡",
-        //     //   image: "https://img.yzcdn.cn/vant/cat.jpeg",
-        //     //   price: 10,
-        //     //   stock: 100
-        //     // },
-        //     // {
-        //     //   id: 4,
-        //     //   name: "汉堡",
-        //     //   description: "汉堡",
-        //     //   image: "https://img.yzcdn.cn/vant/cat.jpeg",
-        //     //   price: 10,
-        //     //   stock: 100
-        //     // },
-        //     // {
-        //     //   id: 5,
-        //     //   name: "汉堡",
-        //     //   description: "汉堡",
-        //     //   image: "https://img.yzcdn.cn/vant/cat.jpeg",
-        //     //   price: 10,
-        //     //   stock: 100
-        //     // },
-        //     // {
-        //     //   id: 6,
-        //     //   name: "汉堡",
-        //     //   description: "汉堡",
-        //     //   image: "https://img.yzcdn.cn/vant/cat.jpeg",
-        //     //   price: 10,
-        //     //   stock: 100
-        //     // },
-        //     // {
-        //     //   id: 7,
-        //     //   name: "汉堡",
-        //     //   description: "汉堡",
-        //     //   image: "https://img.yzcdn.cn/vant/cat.jpeg",
-        //     //   price: 10,
-        //     //   stock: 100
-        //     // },
-        //     // {
-        //     //   id: 8,
-        //     //   name: "汉堡",
-        //     //   description: "汉堡",
-        //     //   image: "https://img.yzcdn.cn/vant/cat.jpeg",
-        //     //   price: 10,
-        //     //   stock: 100
-        //     // }
-        //   ]
-        // },
+        {
+          categoryID: 1,
+          categoryName: "汉堡",
+          dishList: [
+            {
+              dishID: 1,
+              dish: "汉堡11",
+              description: "汉堡",
+              dishPhoto: "https://img.yzcdn.cn/vant/cat.jpeg",
+              price: 10,
+              stock: 100
+            },
+            {
+              dishID: 2,
+              dish: "汉堡",
+              description: "汉堡",
+              dishPhoto: "https://img.yzcdn.cn/vant/cat.jpeg",
+              price: 10,
+              stock: 100
+            },
+            {
+              dishID: 3,
+              dish: "汉堡",
+              description: "汉堡",
+              dishPhoto: "https://img.yzcdn.cn/vant/cat.jpeg",
+              price: 10,
+              stock: 100
+            },
+            {
+              dishID: 4,
+              dish: "汉堡",
+              description: "汉堡",
+              dishPhoto: "https://img.yzcdn.cn/vant/cat.jpeg",
+              price: 10,
+              stock: 100
+            },
+            // {
+            //   id: 3,
+            //   name: "汉堡",
+            //   description: "汉堡",
+            //   image: "https://img.yzcdn.cn/vant/cat.jpeg",
+            //   price: 10,
+            //   stock: 100
+            // },
+            // {
+            //   id: 4,
+            //   name: "汉堡",
+            //   description: "汉堡",
+            //   image: "https://img.yzcdn.cn/vant/cat.jpeg",
+            //   price: 10,
+            //   stock: 100
+            // },
+            // {
+            //   id: 5,
+            //   name: "汉堡",
+            //   description: "汉堡",
+            //   image: "https://img.yzcdn.cn/vant/cat.jpeg",
+            //   price: 10,
+            //   stock: 100
+            // },
+            // {
+            //   id: 6,
+            //   name: "汉堡",
+            //   description: "汉堡",
+            //   image: "https://img.yzcdn.cn/vant/cat.jpeg",
+            //   price: 10,
+            //   stock: 100
+            // },
+            // {
+            //   id: 7,
+            //   name: "汉堡",
+            //   description: "汉堡",
+            //   image: "https://img.yzcdn.cn/vant/cat.jpeg",
+            //   price: 10,
+            //   stock: 100
+            // },
+            // {
+            //   id: 8,
+            //   name: "汉堡",
+            //   description: "汉堡",
+            //   image: "https://img.yzcdn.cn/vant/cat.jpeg",
+            //   price: 10,
+            //   stock: 100
+            // }
+          ]
+        },
+        {
+          categoryID: 2,
+          categoryName: "汉堡",
+          dishList: [
+            {
+              dishID: 1,
+              dish: "汉堡11",
+              description: "汉堡",
+              dishPhoto: "https://img.yzcdn.cn/vant/cat.jpeg",
+              price: 10,
+              stock: 100
+            },
+            {
+              dishID: 2,
+              dish: "汉堡",
+              description: "汉堡",
+              dishPhoto: "https://img.yzcdn.cn/vant/cat.jpeg",
+              price: 10,
+              stock: 100
+            },
+            {
+              dishID: 3,
+              dish: "汉堡",
+              description: "汉堡",
+              dishPhoto: "https://img.yzcdn.cn/vant/cat.jpeg",
+              price: 10,
+              stock: 100
+            },
+            {
+              dishID: 4,
+              dish: "汉堡",
+              description: "汉堡",
+              dishPhoto: "https://img.yzcdn.cn/vant/cat.jpeg",
+              price: 10,
+              stock: 100
+            },
+            // {
+            //   id: 3,
+            //   name: "汉堡",
+            //   description: "汉堡",
+            //   image: "https://img.yzcdn.cn/vant/cat.jpeg",
+            //   price: 10,
+            //   stock: 100
+            // },
+            // {
+            //   id: 4,
+            //   name: "汉堡",
+            //   description: "汉堡",
+            //   image: "https://img.yzcdn.cn/vant/cat.jpeg",
+            //   price: 10,
+            //   stock: 100
+            // },
+            // {
+            //   id: 5,
+            //   name: "汉堡",
+            //   description: "汉堡",
+            //   image: "https://img.yzcdn.cn/vant/cat.jpeg",
+            //   price: 10,
+            //   stock: 100
+            // },
+            // {
+            //   id: 6,
+            //   name: "汉堡",
+            //   description: "汉堡",
+            //   image: "https://img.yzcdn.cn/vant/cat.jpeg",
+            //   price: 10,
+            //   stock: 100
+            // },
+            // {
+            //   id: 7,
+            //   name: "汉堡",
+            //   description: "汉堡",
+            //   image: "https://img.yzcdn.cn/vant/cat.jpeg",
+            //   price: 10,
+            //   stock: 100
+            // },
+            // {
+            //   id: 8,
+            //   name: "汉堡",
+            //   description: "汉堡",
+            //   image: "https://img.yzcdn.cn/vant/cat.jpeg",
+            //   price: 10,
+            //   stock: 100
+            // }
+          ]
+        },
+        {
+          categoryID: 3,
+          categoryName: "汉堡",
+          dishList: [
+            {
+              dishID: 1,
+              dish: "汉堡11",
+              description: "汉堡",
+              dishPhoto: "https://img.yzcdn.cn/vant/cat.jpeg",
+              price: 10,
+              stock: 100
+            },
+            {
+              dishID: 2,
+              dish: "汉堡",
+              description: "汉堡",
+              dishPhoto: "https://img.yzcdn.cn/vant/cat.jpeg",
+              price: 10,
+              stock: 100
+            },
+            {
+              dishID: 3,
+              dish: "汉堡",
+              description: "汉堡",
+              dishPhoto: "https://img.yzcdn.cn/vant/cat.jpeg",
+              price: 10,
+              stock: 100
+            },
+            {
+              dishID: 4,
+              dish: "汉堡",
+              description: "汉堡",
+              dishPhoto: "https://img.yzcdn.cn/vant/cat.jpeg",
+              price: 10,
+              stock: 100
+            },
+            // {
+            //   id: 3,
+            //   name: "汉堡",
+            //   description: "汉堡",
+            //   image: "https://img.yzcdn.cn/vant/cat.jpeg",
+            //   price: 10,
+            //   stock: 100
+            // },
+            // {
+            //   id: 4,
+            //   name: "汉堡",
+            //   description: "汉堡",
+            //   image: "https://img.yzcdn.cn/vant/cat.jpeg",
+            //   price: 10,
+            //   stock: 100
+            // },
+            // {
+            //   id: 5,
+            //   name: "汉堡",
+            //   description: "汉堡",
+            //   image: "https://img.yzcdn.cn/vant/cat.jpeg",
+            //   price: 10,
+            //   stock: 100
+            // },
+            // {
+            //   id: 6,
+            //   name: "汉堡",
+            //   description: "汉堡",
+            //   image: "https://img.yzcdn.cn/vant/cat.jpeg",
+            //   price: 10,
+            //   stock: 100
+            // },
+            // {
+            //   id: 7,
+            //   name: "汉堡",
+            //   description: "汉堡",
+            //   image: "https://img.yzcdn.cn/vant/cat.jpeg",
+            //   price: 10,
+            //   stock: 100
+            // },
+            // {
+            //   id: 8,
+            //   name: "汉堡",
+            //   description: "汉堡",
+            //   image: "https://img.yzcdn.cn/vant/cat.jpeg",
+            //   price: 10,
+            //   stock: 100
+            // }
+          ]
+        },
 
       ]
 
