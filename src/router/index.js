@@ -9,10 +9,22 @@ import Pay from "@/views/order/Pay.vue";
 import Orderfooter from "@/views/order/Orderfooter.vue";
 import MenuFooter from "../components/MenuFooter.vue"
 import UserPage from "@/views/user/UserPage.vue";
+import Home from "@/views/menu/Home.vue";
+import OrderHistory from "@/views/order/OrderHistory.vue";
 
 Vue.use(VueRouter)
 
 const routes = [
+    {
+        path: '/user/orderhistory',
+        name: 'OrderHistory',
+        component: OrderHistory
+    },
+    {
+        path: '/user/home',
+        name: 'Home',
+        component: Home
+    },
     {
         path: '/user/user',
         name: 'UserPage',

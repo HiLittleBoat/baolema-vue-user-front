@@ -215,11 +215,22 @@ export default {
 
     //初始化页面，获取订单数据
     getOrderDetial(){
+
+      //判断是从订单列表页进来的还是从支付成功页进来的
+      if (sessionStorage.getItem('orderID') == null) {
+        var url = '/orderinfo/orderdetail/'+this.$route.query.orderID
+        console.log("从历史订单页进来的")
+      }else{
+        var url = '/orderinfo/orderdetail/'+sessionStorage.getItem('orderID')
+        console.log("从支付成功页进来的")
+      }
+
       //先请求后端数据，接口文档51,也不一定是
       this.$api({
-        url:'/orderinfo/orderdetail/'+sessionStorage.getItem('orderID'),
+        url:url,
         method:'get',
       }).then(res=>{
+        sessionStorage.removeItem('orderID')
         console.log(res)
         //获取订单id取后四位数，不够前边补0
         let orderId=res.data.orderId
@@ -383,7 +394,7 @@ export default {
   text-align: center;
   line-height: 50px;
   font-size: 20px;
-  color: #000000;
+  color: #0d0b0b;
 }
 
 
