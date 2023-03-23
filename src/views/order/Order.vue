@@ -80,9 +80,7 @@
       </div>
       <div id="order-detail-payed-total" style="text-align: right">
         <p>实付 ￥ <strong>{{ totalAmount }}</strong></p>
-
       </div>
-
 
       <!--订单信息-->
       <div id="order-detail-message">
@@ -105,7 +103,7 @@
     </div>
 
     <van-dialog v-model="show" title="对堡了嘛还满意吗？" show-cancel-button :beforeClose="beforeClose">
-      <van-rate v-model="value" allow-half void-icon="star" void-color="##ffd21e" style="margin: 20px"/>
+      <van-rate v-model="value" void-icon="star" void-color="##ffd21e" style="margin: 20px"/> <!--allow-half -->
       <van-cell-group inset>
         <van-field
             v-model="message"
@@ -295,11 +293,12 @@ export default {
           url: '/orderinfo/updatecomment',
           method: 'post',
           params: {
-            orderId: sessionStorage.getItem('orderID1'),
+            orderID: sessionStorage.getItem('orderID1'),
             comment: this.message,
             score: this.value
           }
         }).then(res => {
+          console.log(res)
           if(res.code===20031){
           }
           else {
@@ -326,7 +325,7 @@ export default {
         url: '/orderinfo/updatestatus',
         method: 'post',
         params: {
-          orderId: sessionStorage.getItem('orderID1'),
+          orderID: sessionStorage.getItem('orderID1'),
           status: 3
         }
       }).then(res => {
@@ -408,7 +407,7 @@ export default {
 #numberindex {
   position: absolute;
   top: 33px;
-  left: 189px;
+  left: 122px;
   height: 20px;
   width: 50px;
   font-size: 13px;
