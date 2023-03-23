@@ -326,7 +326,7 @@ export default {
         // })
 
 
-        // this.$router.push( {path:'/user/order'})// 调转到订单页面
+        this.$router.push( {path:'/user/order'})// 调转到订单页面
       })
       //     .then({
       //

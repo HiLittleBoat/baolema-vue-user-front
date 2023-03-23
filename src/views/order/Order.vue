@@ -245,7 +245,7 @@ export default {
 
         //获取订单信息
         console.log(res)
-        this.orderId=res.data.uuid //orderId,存uuid吧
+        this.orderId=res.data.uuid.substring(0,19) //orderId,存uuid吧
 
         this.orderTime=res.data.createdTime
         this.totalAmount=res.data.totalAmount

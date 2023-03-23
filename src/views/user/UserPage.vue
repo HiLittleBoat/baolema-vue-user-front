@@ -13,6 +13,7 @@
         <!--        <van-icon name="arrow" />-->
       </div>
 
+      <!--用户会员卡-->
       <!--      <van-divider/>-->
       <div class="personal-center-card">
         <!--        <img url="@/assets/picture/vipcard.png"></img>-->
@@ -30,11 +31,13 @@
 
       <!--用户订单/历史数据-->
       <div id="ordernav">
-        <van-grid direction="horizontal" clickable :column-num="2">
-          <van-grid-item icon="home-o" text="路由跳转" to="/"/>
-          <van-grid-item icon="search" text="URL 跳转" url="/vant/mobile.html"/>
+        <van-grid id="vanordernav" direction="horizontal" clickable :column-num="2" style="border-radius: 30px">
+          <van-grid-item id="vanordernav1" icon="todo-list-o" text="我的订单" to="/" style="border-radius: 30px"/>
+          <van-grid-item icon="shop-collect-o" text="我的常点" url="/vant/mobile.html"/>
         </van-grid>
       </div>
+
+
 
       <div class="personal-center-lists">
         <van-cell-group>
@@ -82,7 +85,7 @@
     </div>
 
 
-    <!--用户会员卡-->
+
 
 
     <!--历史订单卡订单-->
@@ -112,13 +115,15 @@ export default {
 
 <style scoped>
 
+/*用户vip卡*/
 .personal-center-card {
   background-image: url("~@/assets/picture/vipcard.png");
   background-size: 100% 100%;
   background-repeat: no-repeat;
   padding: 16px;
   height: 200px;
-  margin: auto 10px;
+  margin-left: 6px;
+  margin-right: 10px;
 }
 
 
@@ -126,7 +131,19 @@ export default {
 #ordernav{
   margin: 10px;
   border-radius: 30px;
+}
+#vanordernav{
+  border-radius: 30px;
+}
+#vanordernav1{
+  border-radius: 30px;
+}
 
+.van-grid van-hairline--top{
+  border-radius: 30px !important;
+}
+.van-grid-item{
+  border-radius: 30px !important;
 }
 
 .personal-center-card-body {
