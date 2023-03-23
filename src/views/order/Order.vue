@@ -219,11 +219,14 @@ export default {
       //判断是从订单列表页进来的还是从支付成功页进来的
       if (sessionStorage.getItem('orderID') == null) {
         var url = '/orderinfo/orderdetail/'+this.$route.query.orderID
+        sessionStorage.setItem('orderID1',this.$route.query.orderID)
         console.log("从历史订单页进来的")
       }else{
         var url = '/orderinfo/orderdetail/'+sessionStorage.getItem('orderID')
+        sessionStorage.setItem('orderID1',sessionStorage.getItem('orderID'))
         console.log("从支付成功页进来的")
       }
+
 
       //先请求后端数据，接口文档51,也不一定是
       this.$api({
@@ -245,7 +248,8 @@ export default {
         }
 
         // 拼接成取餐码, 年最后一位+月日+订单id，订单id变成4位数，不够前边补零
-        this.orderNumber=res.data.createdTime.substring(3,10).replace(/-/g,"")+orderIdStr
+        //this.orderNumber=res.data.createdTime.substring(3,10).replace(/-/g,"")+orderIdStr
+        this.orderNumber = orderId
         console.log(this.orderNumber)
 
         //获取订单状态
@@ -283,7 +287,28 @@ export default {
     beforeClose(action, done) {
       if (action === 'confirm') {
         //获取评价信息，返回给后端数据
+        console.log(this.message)
         console.log(this.value)
+
+        //传给后端
+        this.$api({
+          url: '/orderinfo/updatecomment',
+          method: 'post',
+          params: {
+            orderId: sessionStorage.getItem('orderID1'),
+            comment: this.message,
+            score: this.value
+          }
+        }).then(res => {
+          if(res.code===20031){
+          }
+          else {
+            console.log(error);
+          }
+        }).catch(function (error){
+          console.log(error);
+        });
+
         this.$toast.success('感谢评价！\n小店会继续努力的!');
         done();
       } else {
@@ -293,6 +318,27 @@ export default {
 
     // 点击 已取餐
     finish() {
+      if(this.currentSwipeItem<2){
+        this.$toast.fail('厨师还没做好\n请耐心等待');
+        return;
+      }
+      this.$api({
+        url: '/orderinfo/updatestatus',
+        method: 'post',
+        params: {
+          orderId: sessionStorage.getItem('orderID1'),
+          status: 3
+        }
+      }).then(res => {
+        if(res.code===20031){
+        }
+        else {
+          console.log(error);
+        }
+      }).catch(function (error){
+        console.log(error);
+      });
+
       this.$toast.success('谢谢惠顾！\n去评价一下');
       this.currentSwipeItem = 3;
     },
@@ -315,13 +361,20 @@ export default {
     // },
     //返回上一层，没完全实现
     back() {
-      this.$router.go(-1);
+      console.log("返回订单")
+      this.$router.replace('/user/orderhistory');
     }
   }
   ,
   mounted() {
     this.getOrderDetial()
     // this.getOrderDishes();
+
+    let _this = this// 声明一个变量指向Vue实例this，保证作用域一致
+    this.timer = setInterval(() => {
+      _this.getOrderDetial();
+    }, 5000)
+
   }
 }
 </script>

@@ -280,7 +280,7 @@ export default {
 .center-card-text1{
   position: relative;
   left: -105px;
-  font-size: 3px;
+  font-size: 9px;
   color: rgb(103, 84, 47);
 }
 .center-card-text2{
@@ -320,7 +320,7 @@ export default {
 }
 .userpage4{
   position: relative;
-  top:-15px;
+  top:100px;
   width: 100%;
   height: 150px;
 }

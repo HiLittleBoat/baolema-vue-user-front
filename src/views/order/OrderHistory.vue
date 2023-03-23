@@ -128,7 +128,14 @@ export default {
 
     //加载历史订单
     loadOrderHistory() {
+      this.$api({
+        url:'orderinfo/history/'+sessionStorage.getItem('customerID'),
+        method:'get',
+      }).then(res => {
+        console.log(res.data);
 
+        this.orders = res.data
+      })
       // this.orderNumber=res.data.createdTime.substring(3,10).replace(/-/g,"")+orderIdStr
       // this.$api.get('/orderinfo/orderhistory/'+sessionStorage.getItem('customerID')).then(res => {
       //   console.log(res.data);
