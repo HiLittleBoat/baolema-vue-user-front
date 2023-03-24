@@ -2,6 +2,8 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+import ElementUI from 'element-ui';             //全局引入element
+import 'element-ui/lib/theme-chalk/index.css';    //全局引入element的样式
 
 Vue.config.productionTip = false
 import 'bootstrap/dist/css/bootstrap.css'
@@ -22,6 +24,8 @@ Vue.prototype.$api = request
 //引入jquery
 import jquery from "jquery";
 Vue.prototype.$ = jquery;
+
+Vue.use(ElementUI);
 
 new Vue({
   router,
