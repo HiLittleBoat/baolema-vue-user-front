@@ -40,7 +40,8 @@
       <div class="center-card-text3">堡了嘛会员，全新升级</div>
       <div class="center-card-text4">超多权益解锁中…</div>
     </div>
-    <img src="../../assets/picture/userpage4.png" class="userpage4"/>
+    <img src="../../assets/picture/usercloud.png" class="usercloud"/>
+    <img src="../../assets/picture/userbg1.png" class="userpage4"/>
     <!--底部导航-->
     <Menu-footer></Menu-footer>
   </div>
@@ -227,8 +228,10 @@ export default {
 }
 
 .personal-center-container {
-  background: #fcfbfb;
-  height: 500px;
+  height: 610px;
+  //background: #fcfbfb;
+  background-image: linear-gradient(180deg, rgba(255,0,0,0), #fddfba, #f4eddd);
+  //height: 500px;
 }
 
 
@@ -391,10 +394,20 @@ export default {
   font-size: 14px;
 }
 
+
+//云
+.usercloud{
+  position:absolute;
+  bottom: 234px;
+  width: 89px;
+  right: 132px;
+
+}
+
 .userpage4 {
   position: relative;
-  top: 100px;
+  top: 110px;
   width: 100%;
-  height: 150px;
+  //height: 100%;
 }
 </style>
