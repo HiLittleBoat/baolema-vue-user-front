@@ -32,6 +32,14 @@
                         <div class="card-text"><strong style="color:orange; font-size: 15px">￥{{ dish.price }}</strong>
                           <van-button icon="plus" type="warning" color="#ee0a24" round @click="addToCart(dish)"
                                       size="mini" id="addtocartmenu"></van-button>
+<!--                          {{ dish.number }}-->
+
+<!--                          <van-button icon="minus" color="#fab9c0" plain round @click="removeFromCart(dish)"-->
+<!--                                               size="mini" id="minustocartmenu" ></van-button>-->
+<!--                          <van-badge :content="5" active="">-->
+<!--                            <van-button icon="plus" type="warning" round @click="addToCart(dish)" size="mini" id="addtocartmenu"></van-button>-->
+<!--                          </van-badge>-->
+
                         </div>
                       </div>
                     </b-col>
@@ -53,7 +61,7 @@
         <!--购物车按钮-->
         <b-button v-b-toggle.sidebar-right id="cartbutton">
           <b-icon icon="cart3" animation="cylon" font-scale="2"></b-icon>
-          <span id="countProductOuter">{{ cartnum }}</span>
+          <span id="countProductOuter" v-if="this.cartnum>0">{{ cartnum }}</span>
         </b-button>
       </div>
       <!-- 弹出购物车框   -->
@@ -61,7 +69,11 @@
         <div class="px-3 py-2">
           <!--  推荐商品-->
           <div id="recommend">
-
+            <div class="gif">
+              <b-img
+                  src="http://5b0988e595225.cdn.sohucs.com/q_70,c_zoom,w_640/images/20190504/fafc2b313c5d4c58addfa6938d12c5ac.gif"
+                  fluid thumbnail/>
+            </div>
           </div>
           <!--已选商品-->
           <div id="selected">
@@ -89,11 +101,11 @@
                 </div>
             </div>
           </div>
-          <div class="gif">
-            <b-img
-                src="http://5b0988e595225.cdn.sohucs.com/q_70,c_zoom,w_640/images/20190504/fafc2b313c5d4c58addfa6938d12c5ac.gif"
-                fluid thumbnail/>
-          </div>
+<!--          <div class="gif">-->
+<!--            <b-img-->
+<!--                src="http://5b0988e595225.cdn.sohucs.com/q_70,c_zoom,w_640/images/20190504/fafc2b313c5d4c58addfa6938d12c5ac.gif"-->
+<!--                fluid thumbnail/>-->
+<!--          </div>-->
           <!--          <b-img src="https://picsum.photos/500/500/?image=54" fluid thumbnail></b-img>-->
           <!--底部结算-->
           <b-container fluid id="carttotle">
@@ -429,6 +441,9 @@ export default {
   display: block !important;
 }
 
+/deep/ .van-badge--fixed{
+  top: 6px;
+}
 .list-nav-item {
   --bs-list-group-color: #212529;
   --bs-list-group-bg: null;
@@ -529,6 +544,10 @@ export default {
 
 #addtocartmenu {
   margin-left: 43px
+}
+
+#minustocartmenu{
+  margin-left: 40px
 }
 
 .card-body {
