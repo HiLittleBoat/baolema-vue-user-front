@@ -257,7 +257,7 @@ export default {
 
         }
       }
-      this.finalAmount = this.totalAmount - this.vipAmount
+      this.finalAmount = (this.totalAmount - this.vipAmount).toFixed(2)
 
 
     },
@@ -325,8 +325,9 @@ export default {
         //   console.log(error)
         // })
 
+        // 调转到订单页面//支付过程开的时候，这个跳转先注释掉
+        this.$router.push( {path:'/user/order'})
 
-        this.$router.push( {path:'/user/order'})// 调转到订单页面
       })
       //     .then({
       //

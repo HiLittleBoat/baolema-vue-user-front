@@ -27,27 +27,27 @@
               <div class="form-element form-stack">
                 <label for="phonenumber" class="form-label">验证码</label>
 
-                <input id="phonenumber" type="text" name="phonenumber" class="form-input">
-                <b-button  type="submit" id="send-message" @click="getMessage">发送验证码</b-button>
+                <input id="phonenumber" type="text" name="code" class="form-input"  v-model="code">
+                <b-button  type="submit" id="send-message" @click="getMessage">获取验证码</b-button>
 
               </div>
               <div class="form-element form-stack">
                 <label for="username-signup" class="form-label">用户名</label>
-                <input id="username-signup" type="text" name="username" class="form-input">
+                <input id="username-signup" type="text" name="username" class="form-input" v-model="username">
               </div>
               <div class="form-element form-stack">
                 <label for="password-signup" class="form-label">密码</label>
-                <input id="password-signup" type="password" name="password" class="form-input">
+                <input id="password-signup" type="password" name="password" class="form-input" v-model="password">
               </div>
               <div class="form-element form-stack">
                 <label if="password-signup" for="password-signup" class="form-label" >请再次输入密码</label>
-                <input id="password-signup1" type="password" name="password" class="form-input" @blur="confirmLeave">
+                <input id="password-signup1" type="password" name="password2" class="form-input" @blur="confirmLeave" v-model="password2">
               </div>
               <div id="wrongConfirm"></div>
 
 
               <div class="form-element form-submit">
-                <button id="signUp" class="signup" type="submit" name="signup">注册</button>
+                <button id="signUp" class="signup" type="submit" name="signup" @click="register1">注册</button>
                 <button id="goLeft" class="signup off">去登录</button>
               </div>
             </form>
@@ -92,9 +92,15 @@
 import {config, formatXml} from '@/assets/js/login.js'
 import paper from "paper";
 import {BButton, BAlert} from "bootstrap-vue";
+import register from "@/views/user/Register.vue";
 
 export default {
   name: "Login",
+  computed: {
+    register() {
+      return register
+    }
+  },
   components: {
     config,
     formatXml,
@@ -105,9 +111,13 @@ export default {
     return{
       msg:'',
       isError:false,
-      phoneNumber1: '',
-      password1: '',
-      phonenumber: '',
+      phoneNumber1: '',//登录手机号
+      password1: '', //登录密码
+      password2: '', //注册第二个密码
+      password: '', //注册第一个密码
+      phonenumber: '', //注册手机号
+      code:'', //注册验证码
+      username: '', //用户名
     }
   },
   methods:{
@@ -168,15 +178,19 @@ export default {
     },
     //两次密码比对
     confirmLeave () {
-      this.password = document.getElementById('password-signup').value
-      this.password2 = document.getElementById('password-signup1').value
-      console.log(this.confirm)
+      // this.password = document.getElementById('password-signup').value
+      // this.password2 = document.getElementById('password-signup1').value
+      console.log(this.password2)
+      console.log(this.password)
+      console.log(this.username)
+      console.log(this.phonenumber)
+      console.log(this.code)
       if (this.password === '') {
         document.getElementById('confirmText').setAttribute('class', 'emailText change')
         document.getElementById('wrongConfirm').innerText = '密码不能为空'
       } else {
         document.getElementById('confirmText').setAttribute('class', 'emailText')
-        if (this.password !== this.confirm) {
+        if (this.password !== this.password2) {
           document.getElementById('confirmText').setAttribute('class', 'emailText change')
           document.getElementById('wrongConfirm').innerText = '两次输入的密码不匹配'
         } else {
@@ -184,6 +198,42 @@ export default {
           document.getElementById('wrongConfirm').innerText = ''
         }
       }
+    },
+
+    // 注册
+    register1(){
+      console.log(this.password2)
+      console.log(this.password)
+      console.log(this.username)
+      console.log(this.phonenumber)
+      console.log(this.code)
+      this.$api({
+        // url:'/register',
+        url:'/register?phoneNumber=15172118655&password=123456&code=5178&username=Jack8&profilePhoto=https:%2F%2Fimg-blog.csdnimg.cn%2F20200527153605959.png',
+        method:'get',
+        // params:{
+        //   phoneNumber:this.phonenumber,
+        //   password:this.password,
+        //   code:this.code,
+        //   username:this.username,
+        //   profilePhoto: 'https://img-blog.csdnimg.cn/20200527153605959.png'
+        // }
+      }).then(res =>{
+        console.log(res)
+        if(res.code === 20011){
+          // 注册成功
+          console.log(res)
+          this.$toast.success('注册成功,去登录吧')
+          this.phoneNumber1= this.phonenumber
+        }else {
+          // 注册失败,用bootstrap警告提醒框提醒
+          console.log(res.msg+'1')
+          this.isError = true;
+          this.msg = res.msg;
+        }
+      }).catch(function (error){
+        console.log(error);
+      })
     },
 
     // 登录验证

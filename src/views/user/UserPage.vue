@@ -91,6 +91,7 @@ export default {
         this.user = res.data;
         this.currentSwipeItem = this.user.rank;
         this.user.phoneNumber = res.data.phoneNumber.substring(0, 3) + "****" + res.data.phoneNumber.substring(7, 11);
+        this.user.accumulatedAmount = res.data.accumulatedAmount.toFixed(0);
         if (this.user.rank == 0) {
           this.user.otheraccumulatedAmount = 500 - this.user.accumulatedAmount;
         } else if (this.user.rank == 1) {
