@@ -19,6 +19,8 @@ Vue.use(Vant);
 //引入axios
 import "/src/axios/request.js";
 import request from "/src/axios/request.js";
+//request.defaults.withCredentials=true;//让ajax携带cookie
+//Vue.prototype.$axios = axios;
 Vue.prototype.$api = request
 
 //引入jquery

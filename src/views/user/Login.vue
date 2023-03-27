@@ -131,6 +131,7 @@ export default {
           phoneNumber: this.phonenumber,
         }
       }).then(res => {
+        console.log("1212")
         console.log(res)
       }).catch(function (error){
         console.log(error)
@@ -212,17 +213,17 @@ export default {
       // this.$api.get('/register?phoneNumber='+this.phonenumber+'&password='+this.password+'&code='+this.code+'&username='+this.username+'&profilePhoto=')
       // http://117.50.182.208:8080/register?phoneNumber=15172118655&password=123456&code=9323&username=Jack10&profilePhoto=
       this.$api({
-        url:'/register?phoneNumber=15172118655&password=123456&code=9323&username=Jack10&profilePhoto=',
+        url:'/register',
         //url:'/register?phoneNumber=15172118655&password=123456&code=5178&username=Jack8&profilePhoto=',
         method:'get',
-        // params:{
-        //   phoneNumber:this.phonenumber,
-        //   password:this.password,
-        //   code:this.code,
-        //   username:this.username,
-        //   profilePhoto:'',
-        //   //'https://img-blog.csdnimg.cn/20200527153605959.png'
-        // }
+        params:{
+          phoneNumber:this.phonenumber,
+          password:this.password,
+          code:this.code,
+          username:this.username,
+          profilePhoto:'',
+          //'https://img-blog.csdnimg.cn/20200527153605959.png'
+        }
       }).then(res =>{
         console.log(res)
         if(res.code === 20011){
