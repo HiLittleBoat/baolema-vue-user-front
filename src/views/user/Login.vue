@@ -18,8 +18,8 @@
             <form id="form-signup" method="post" onsubmit="return false;">
               <div class="form-element form-stack">
                 <label for="phonenumber" class="form-label">手机号</label>
-                <input id="phonenumber" type="text" name="phonenumber" class="form-input" @blur="PhoneConfirmLeave" v-model="phonenumber">
-                <div id="PhoneWrongConfirm" style="color:#ffc107 "></div>
+                <input id="phonenumber" type="text" name="phonenumber" class="form-input" @blur="PhoneConfirmLeave" v-model="phonenumber" style="padding-top: 12px">
+                <div id="PhoneWrongConfirm" style="color:#ffc107;font-size: 10px"></div>
               </div>
               <!--是否已存在文本框-->
 
@@ -28,7 +28,7 @@
                 <label for="phonenumber" class="form-label">验证码</label>
 
                 <input id="phonenumber" type="text" name="code" class="form-input"  v-model="code">
-                <b-button  type="submit" id="send-message" @click="getMessage">获取验证码</b-button>
+                <b-button  type="submit" id="send-message" @click="getMessage" style="background-color: #ff7f58;-bs-btn-hover-bg: #de704f;">获取验证码</b-button>
 
               </div>
               <div class="form-element form-stack">
@@ -93,6 +93,7 @@ import {config, formatXml} from '@/assets/js/login.js'
 import paper from "paper";
 import {BButton, BAlert} from "bootstrap-vue";
 import register from "@/views/user/Register.vue";
+//import * as url from "url";
 
 export default {
   name: "Login",
@@ -207,16 +208,20 @@ export default {
       console.log(this.username)
       console.log(this.phonenumber)
       console.log(this.code)
+      //this.$api.get('/register?phoneNumber=15172118655&password=123456&code=5178&username=Jack8&profilePhoto=')
+      // this.$api.get('/register?phoneNumber='+this.phonenumber+'&password='+this.password+'&code='+this.code+'&username='+this.username+'&profilePhoto=')
+      // http://117.50.182.208:8080/register?phoneNumber=15172118655&password=123456&code=9323&username=Jack10&profilePhoto=
       this.$api({
-        // url:'/register',
-        url:'/register?phoneNumber=15172118655&password=123456&code=5178&username=Jack8&profilePhoto=https:%2F%2Fimg-blog.csdnimg.cn%2F20200527153605959.png',
+        url:'/register?phoneNumber=15172118655&password=123456&code=9323&username=Jack10&profilePhoto=',
+        //url:'/register?phoneNumber=15172118655&password=123456&code=5178&username=Jack8&profilePhoto=',
         method:'get',
         // params:{
         //   phoneNumber:this.phonenumber,
         //   password:this.password,
         //   code:this.code,
         //   username:this.username,
-        //   profilePhoto: 'https://img-blog.csdnimg.cn/20200527153605959.png'
+        //   profilePhoto:'',
+        //   //'https://img-blog.csdnimg.cn/20200527153605959.png'
         // }
       }).then(res =>{
         console.log(res)
@@ -410,14 +415,25 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$theme-signup: #03f4ec;
-$theme-signup-darken: #02c0d1;
-$theme-signup-background: #2C3034;
-$theme-login: #FFCD24;
+//$theme-signup: #03f4ec;
+//$theme-signup-darken: #02c0d1;
+//$theme-signup-background: #fddeaf;
+//$theme-login: #FFCD24;
+//$theme-login-darken: #eabc22;
+//$theme-login-background: #f9f9f9;
+//$theme-dark: #212121;
+//$theme-light: #e3e3e3;
+//$font-default: 'Roboto', sans-serif;
+
+$theme-signup: #ff7f58;
+$theme-signup-darken: #ff8c72;
+//$theme-signup-background: #fff9ef;
+$theme-signup-background: #f9f9f9;;
+$theme-login: #fdcc56;
 $theme-login-darken: #eabc22;
 $theme-login-background: #f9f9f9;
 $theme-dark: #212121;
-$theme-light: #e3e3e3;
+$theme-light: #130000;
 $font-default: 'Roboto', sans-serif;
 
 $success: #5cb85c;
@@ -508,6 +524,7 @@ body {
   margin-left: 50%;
   position: absolute;
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  //box-shadow: 0 14px 28px rgba(253, 222, 175, 0.69), 0 10px 10px rgba(253, 222, 175, 0.3);
 }
 
 .topLayer {
