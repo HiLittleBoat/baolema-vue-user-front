@@ -1,7 +1,7 @@
 <template>
 <div>
   <Upbar></Upbar>
-
+<div id="orderMenu">
 <!--历史订单-->
   <div class="historyOrderCard" v-for="order in orders" :key="order.orderID"  @click="selectOrder(order.orderID)">
     <!--如果订单是没完成的，显示取餐码-->
@@ -40,7 +40,7 @@
       </van-cell>
     </div>
   </div>
-
+</div>
   <MenuFooter></MenuFooter>
 </div>
 </template>
@@ -150,6 +150,12 @@ export default {
 </script>
 
 <style scoped>
+
+/*背景图片*/
+#orderMenu{
+  background: url("~@/assets/homebg.jpg") no-repeat;
+}
+
 /*历史订单栏*/
 .custom-title {
   margin-right: 4px;
