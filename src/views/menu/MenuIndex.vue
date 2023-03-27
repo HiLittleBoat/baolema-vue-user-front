@@ -5,12 +5,13 @@
     <!-- 菜品主页  -->
     <b-container fluid id="menu">
       <b-row>
-        <b-col cols="3">
-          <div id="list-nav" style="width: 100%; height: 800px">
+        <b-col cols="3" style="background-color: #FFFFFF; padding-right: 0">
+          <div id="list-nav" style="width: 100%; height: 780px">
             <b-list-group v-b-scrollspy:listgroup-ex>
               <b-list-group-item class="list-nav-item" v-for="(category, index) in categories" :key="index"
                                  :href="`#p${category.categoryID}`">
-                {{ category.categoryName }}
+                <img :src="imageList[index]" alt="" style="width: 40px; ">
+                <span style="font-size: 13px;font-weight: 500; text-align: center">{{ category.categoryName }}</span>
               </b-list-group-item>
             </b-list-group>
           </div>
@@ -31,12 +32,20 @@
                         <p class="card-text" style="font-size: 12px">{{ dish.description }}</p>
                         <div class="card-text"><strong style="color:orange; font-size: 15px">￥{{ dish.price }}</strong>
                           <!--加入购购物车动画效果-->
-<!--                          <transition appear v-on:enter="itemEnter" v-on:leave="itemLeave">-->
-<!--                            <div id="item"></div>-->
+                          <!--                          <transition appear v-on:enter="itemEnter" v-on:leave="itemLeave">-->
+                          <!--                            <div id="item"></div>-->
 
-                            <van-button icon="plus" type="warning" color="#ee0a24" round @click="addToCart(dish)"
-                                        size="mini" id="addtocartmenu"></van-button>
-<!--                          </transition>-->
+                          <van-button icon="plus" type="warning" color="#ee0a24" round :ref="'item'+dish.dishID"
+                                      @click="addToCart1(dish,$event)"
+                                      size="mini" id="addtocartmenu"></van-button>
+
+                          <!-- 4. 使用Vue的<transition>元素来创建动画效果。可以为<transition>元素添加CSS样式来定义动画效果。 -->
+                          <transition appear v-on:enter="itemEnter" v-on:leave="itemLeave">
+                            <img class="add_img_js" :id="'item'+dish.dishID" v-if="addShow1 === dish.dishID"
+                                 :src="dish.dishPhoto" alt="" style="width: 20px">
+                          </transition>
+                          <!--                          <span class="countProductEach" v-if="this.cart">{{}}</span>-->
+                          <!--                          </transition>-->
                           <!--                          {{ dish.number }}-->
 
                           <!--                          <van-button icon="minus" color="#fab9c0" plain round @click="removeFromCart(dish)"-->
@@ -178,11 +187,22 @@ export default {
   },
   data() {
     return {
+      // 动画
+      addShow1: null,
+
+      //菜品目录图片
+      imageList: [
+        'http://rr707y5yy.hd-bkt.clouddn.com/%E6%B1%89%E5%A0%A1.png',
+        'http://rr707y5yy.hd-bkt.clouddn.com/%E9%B8%A1%E8%85%BF.png',
+        'http://rr707y5yy.hd-bkt.clouddn.com/%E7%85%8E%E8%9B%8B.png',
+        'http://rr707y5yy.hd-bkt.clouddn.com/%E6%8F%90%E6%8B%89%E7%B1%B3%E8%8B%8F.png',
+        'http://rr707y5yy.hd-bkt.clouddn.com/%E9%A5%AE%E6%96%99.png',
+      ],
 
       //加购物车动画效果
       cartPosition: { //购物车位置
-        x: 0,
-        y: 0
+        x: 100,
+        y: 100
       },
       itemPosition: { //商品位置
         x: 0,
@@ -318,19 +338,84 @@ export default {
   mounted() {
     this.getDishes();
   },
-  // mounted() {
-  //   //从后台获取菜品信息数据
-  //   // 通过后端API获取菜品列表（包括分类信息）
-  //   function getDishes() {
-  //     return new Promise((resolve, reject) => {
-  //       setTimeout(() => {
-  //         resolve(dishes);
-  //       }, 1000);
-  //     });
-  //   }
-  //
-  // },
+
   methods: {
+
+    //加入购物车动画
+    // 5. 在Vue实例中定义动画方法。
+    itemEnter: function (el, done) {
+      // this.addShow1 = dish.dishID;
+      // 计算元素的初始位置和结束位置
+      console.log(this.addShow1)
+      console.log(el);
+      console.log("动画")
+      var startPosition = {
+        x: 0,
+        y: 0
+      };
+
+      var endPosition = {
+        x: this.cartPosition.x - this.itemPosition.x,
+        y: this.cartPosition.y - this.itemPosition.y
+      };
+      console.log(startPosition)
+      console.log(endPosition)
+
+      var animation = null;
+
+      // 创建动画
+      function animate() {
+        //创建动画
+        animation = el.animate([
+          {transform: `translate(${startPosition.x}px, ${startPosition.y}px)`},
+          {transform: `translate(${endPosition.x}px, ${endPosition.y}px)`}
+        ], {
+          duration: 1000,
+          easing: 'ease-in-out'
+        });
+        console.log(animation)
+
+        //等待动画效果完成
+        setTimeout(function () {
+          i++;
+          if (i < 5) { // 这里可以根据需要设置动画的次数
+            animate(); // 继续执行动画
+          } else {
+            // 动画完成后删除元素
+            el.parentNode.removeChild(el);
+            done();
+            this.addShow1 = null;
+          }
+        }, 1000); // 这里可以根据需要设置动画的间隔时间
+
+
+      }
+
+      animate(); // 开始执行动画
+      // var animation = el.animate([
+      //   {transform: `translate(${startPosition.x}px, ${startPosition.y}px)`},
+      //   {transform: `translate(${endPosition.x}px, ${endPosition.y}px)`}
+      // ], {
+      //   duration: 1000,
+      //   easing: 'ease-in-out'
+      // });
+      // console.log(animation)
+      //
+      // // 执行动画
+      // done();
+      //
+      // // 动画完成后删除元素
+      // animation.onfinish = function () {
+      //   //el.parentNode.removeChild(el);
+      //   done();
+      //   this.addShow1 = null;
+      // };
+    },
+    itemLeave: function (el, done) {
+      done();
+    },
+
+
     //跳转支付页面
     gotoPayPage() {
       sessionStorage.setItem("cart", JSON.stringify(this.cart)); //sessionStorage不能直接存储数组对象，要先转为json
@@ -397,8 +482,128 @@ export default {
 
     },
 
+    //外部增加购物车，并且加入动画
+    addToCart1(dish, event) {
+      this.addShow1 = null;
+      // 1.加入购物车动画
+      // const div = document.createElement('div');
+      // div.className = "circle";
+      // div.innerHTML = `<img class="circle-icon"  :src="dish.dishPhoto" alt="" style="width: 24px">`;
+      // // 点击按键并获取按钮的初始化位置
+      // //const target = event.target as HTMLInputElement;
+      // console.log(event); //event本身就有x,y信息
+      // // var bntRect = event.getBoundingClientRect();
+      // const ICON_SIZE = 24;
+      // // // console.log(bntRect);
+      // const left= event.x + 10 - ICON_SIZE / 2;
+      // const top= event.y - ICON_SIZE;
+      // div.style.setProperty('--left', `${left}px`);
+      // div.style.setProperty('--top', `${top}px`);
+      // // 获取icon的结束位置,就是购物车的位置
+      // var cartElement = document.getElementById('cartbutton');
+      // const cartRect = cartElement.getBoundingClientRect();
+      // const x = cartRect.left + cartRect.width / 2 - ICON_SIZE / 2 - left;
+      // const y = cartRect.top - ICON_SIZE - top;
+      // div.style.setProperty('--x', `${x}px`);
+      // div.style.setProperty('--y', `${y}px`);
+      // // 动画结束时移除
+      // div.addEventListener('animationend', () => {
+      //   div.remove();
+      // })
+      // // 添加icon到界面
+      // document.body.appendChild(div);
+
+
+      // 获取购物车和商品的DOM元素
+
+      var id1 = 'item' + dish.dishID;//动态生成的id
+      var itemElement = this.$refs['item' + dish.dishID][0];//动态生成的id
+      console.log(id1);
+      var cartElement = document.getElementById('cartbutton');
+      //var button = event; //获取点击元素
+      //获取点击的元素位置
+      //console.log(`Button position: top=${button.clientX}, left=${buttonLeft}`);
+
+      //var itemElement = document.getElementById(id1);
+
+      // // 根据传入的event，获取该按钮所在位置,用ref传入的值,不用getBoundingClientRect
+      //const buttonEl = this.$refs['item'+dish.dishID];
+      const buttonTop = itemElement.offsetTop;
+      const buttonLeft = itemElement.offsetLeft;
+      console.log(`Button position: top=${buttonTop}, left=${buttonLeft}`);
+
+      // this.itemPosition = {
+      //   x: buttonLeft,
+      //   y: buttonTop
+      // }
+
+      // 计算元素的位置
+      var cartPosition = cartElement.getBoundingClientRect();
+      console.log(cartPosition)
+      console.log(cartElement)
+      console.log(itemElement)
+
+      var itemPosition = itemElement.getBoundingClientRect();
+      //console.log(itemPosition)
+
+      // console.log(event.x)
+      // console.log(event.y)
+
+      // 更新状态变量
+      this.cartPosition = {
+        x: cartPosition.left + cartPosition.width / 2,
+        y: cartPosition.top + cartPosition.height / 2
+      };
+      this.itemPosition = {
+        x: itemPosition.left + itemPosition.width / 2,
+        y: itemPosition.top + itemPosition.height / 2
+      };
+      // this.itemPosition = {
+      //   x: event.x,
+      //   y: event.y
+      // };
+      console.log(this.itemPosition)
+      console.log('cartPosition' + this.cartPosition)
+
+      this.addShow1 = dish.dishID;
+
+
+      // 2.改变购物车数量
+      console.log(dish)
+      console.log(this.cartnum)
+      this.cartnum += 1; //购物车总数
+      this.totalprice += dish.price; //总价
+      /* 检查购物车中是否已经有该商品 */
+      var index = this.cart.findIndex(function (i) {
+        console.log(i)
+        return i.dishID === dish.dishID;
+      });
+      // var index = this.cart.findIndex(function (i) {
+      //   console.log(i)
+      //   return i.id === dish.dishID;
+      // });
+      if (index === -1) {
+        /* 如果购物车中没有该商品，则将商品添加到购物车 */
+        this.cart.push({
+          dishID: dish.dishID,
+          dish: dish.dish,
+          price: dish.price,
+          number: 1,
+          description: dish.description,
+          dishPhoto: dish.dishPhoto
+        });
+      } else {
+        /* 如果购物车中已经有该商品，则将商品数量加1 */
+        this.cart[index].number += 1;
+
+
+      }
+    },
+
     //增加购物车
     addToCart(dish) {
+
+
       console.log(dish)
       console.log(this.cartnum)
       this.cartnum += 1; //购物车总数
@@ -435,18 +640,55 @@ export default {
 </script>
 
 <style scoped>
+/*与动画相关*/
+/*.circle {*/
+/*  position: fixed;*/
+/*  width: 20px;*/
+/*  height: 20px;*/
+/*  line-height: 20px;*/
+/*  border-radius: 20px;*/
+/*  left: var(--left);*/
+/*  top: var(--top);*/
+/*  !* border: 2px solid #454545; *!*/
+/*}*/
+/*与动画相关*/
+
+/*与动画相关*/
+@keyframes moveY {
+  to {
+    transform: translateY(var(--y));
+  }
+}
+
+/*.circle {*/
+/*  --duration: 0.8s;*/
+/*  animation: moveY var(--duration) cubic-bezier(0.5, -0.5, 1, 1);*/
+/*}*/
+
+@keyframes moveX {
+  to {
+    transform: translateX(var(--x));
+  }
+}
+
+/*.circle-icon {*/
+/*  animation: moveX var(--duration) linear;*/
+/*}*/
+
+
 /*每个菜品列表，加入购物车*/
 
 
 #menu {
+  background: url("~@/assets/homebg.jpg") no-repeat;
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
   color: #212529;
   text-align: left;
   box-sizing: border-box;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
+  padding-top: 0;
+  padding-bottom: 50px;
   padding-left: 0px;
   padding-right: 0px;
   margin-right: 0px;
@@ -489,12 +731,12 @@ export default {
 
 #shoppingcartfooter {
   position: absolute;
-  right: 0;
-  top: 300px;
+  left: 5px;
+  bottom: 100px;
   width: 60px;
   height: 50px;
   /*background-color: #f5f5f5;*/
-  border-top: 1px solid #e5e5e5;
+  /*border-top: 1px solid #e5e5e5;*/
 }
 
 /*商品列表*/
@@ -507,9 +749,11 @@ export default {
   /*background-color: #ffcd56;*/
   background-color: #ed662cd4;
   /* 形状圆形 */
-  border-bottom-left-radius: 30px;
-  border-top-left-radius: 30px
+  /*border-bottom-left-radius: 30px;*/
+  /*border-top-left-radius: 30px*/
+  border-radius: 50%;
 
+  height: 57px;
 }
 
 #sidebar-right {
