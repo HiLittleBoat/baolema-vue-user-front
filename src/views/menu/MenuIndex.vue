@@ -28,17 +28,22 @@
                     <b-col cols="7" class="card-message">
                       <div class="card-body">
                         <p class="card-title" style="font-size: 15px">{{ dish.dish }}</p>
-                        <p class="card-text" style="font-size: 12px" >{{ dish.description }}</p>
+                        <p class="card-text" style="font-size: 12px">{{ dish.description }}</p>
                         <div class="card-text"><strong style="color:orange; font-size: 15px">￥{{ dish.price }}</strong>
-                          <van-button icon="plus" type="warning" color="#ee0a24" round @click="addToCart(dish)"
-                                      size="mini" id="addtocartmenu"></van-button>
-<!--                          {{ dish.number }}-->
+                          <!--加入购购物车动画效果-->
+<!--                          <transition appear v-on:enter="itemEnter" v-on:leave="itemLeave">-->
+<!--                            <div id="item"></div>-->
 
-<!--                          <van-button icon="minus" color="#fab9c0" plain round @click="removeFromCart(dish)"-->
-<!--                                               size="mini" id="minustocartmenu" ></van-button>-->
-<!--                          <van-badge :content="5" active="">-->
-<!--                            <van-button icon="plus" type="warning" round @click="addToCart(dish)" size="mini" id="addtocartmenu"></van-button>-->
-<!--                          </van-badge>-->
+                            <van-button icon="plus" type="warning" color="#ee0a24" round @click="addToCart(dish)"
+                                        size="mini" id="addtocartmenu"></van-button>
+<!--                          </transition>-->
+                          <!--                          {{ dish.number }}-->
+
+                          <!--                          <van-button icon="minus" color="#fab9c0" plain round @click="removeFromCart(dish)"-->
+                          <!--                                               size="mini" id="minustocartmenu" ></van-button>-->
+                          <!--                          <van-badge :content="5" active="">-->
+                          <!--                            <van-button icon="plus" type="warning" round @click="addToCart(dish)" size="mini" id="addtocartmenu"></van-button>-->
+                          <!--                          </van-badge>-->
 
                         </div>
                       </div>
@@ -82,30 +87,30 @@
               <div class="yuantitle">已选商品</div>
             </div>
             <!--已选商品列表-->
-              <div class="list-group2">
-                <div class="list-group-item1" v-for="item in cart">
-                  <van-card
-                      :price="item.price"
-                      :desc="item.description"
-                      :title="item.dish"
-                      :thumb="item.dishPhoto"
-                      style="text-align: left; background-color: #FFFFFF"
-                  >
-                    <template #footer>
-                      <van-button icon="minus" color="#fab9c0" plain round @click="removeFromCart(item)"
-                                  size="mini"></van-button>
-                      {{ item.number }}
-                      <van-button icon="plus" type="warning" round @click="addToCart(item)" size="mini"></van-button>
-                    </template>
-                  </van-card>
-                </div>
+            <div class="list-group2">
+              <div class="list-group-item1" v-for="item in cart">
+                <van-card
+                    :price="item.price"
+                    :desc="item.description"
+                    :title="item.dish"
+                    :thumb="item.dishPhoto"
+                    style="text-align: left; background-color: #FFFFFF"
+                >
+                  <template #footer style="font-size: 10px">
+                    <van-button icon="minus" color="#fab9c0" plain round @click="removeFromCart(item)"
+                                size="mini" style=""></van-button>
+                    <span style="bottom: -5px;left: 3px;position: relative;font-size: 14px">{{ item.number }}</span>
+                    <van-button icon="plus" type="warning" round @click="addToCart(item)" size="mini"></van-button>
+                  </template>
+                </van-card>
+              </div>
             </div>
           </div>
-<!--          <div class="gif">-->
-<!--            <b-img-->
-<!--                src="http://5b0988e595225.cdn.sohucs.com/q_70,c_zoom,w_640/images/20190504/fafc2b313c5d4c58addfa6938d12c5ac.gif"-->
-<!--                fluid thumbnail/>-->
-<!--          </div>-->
+          <!--          <div class="gif">-->
+          <!--            <b-img-->
+          <!--                src="http://5b0988e595225.cdn.sohucs.com/q_70,c_zoom,w_640/images/20190504/fafc2b313c5d4c58addfa6938d12c5ac.gif"-->
+          <!--                fluid thumbnail/>-->
+          <!--          </div>-->
           <!--          <b-img src="https://picsum.photos/500/500/?image=54" fluid thumbnail></b-img>-->
           <!--底部结算-->
           <b-container fluid id="carttotle">
@@ -173,6 +178,17 @@ export default {
   },
   data() {
     return {
+
+      //加购物车动画效果
+      cartPosition: { //购物车位置
+        x: 0,
+        y: 0
+      },
+      itemPosition: { //商品位置
+        x: 0,
+        y: 0
+      },
+
       activeSection: null, //不知道干嘛的在目录那边有用到
       currentCategory: '', // 当前分类
       cart: [], //购物车数据
@@ -317,7 +333,7 @@ export default {
   methods: {
     //跳转支付页面
     gotoPayPage() {
-      sessionStorage.setItem("cart",  JSON.stringify(this.cart)); //sessionStorage不能直接存储数组对象，要先转为json
+      sessionStorage.setItem("cart", JSON.stringify(this.cart)); //sessionStorage不能直接存储数组对象，要先转为json
       console.log(this.cart)
       console.log(JSON.parse(sessionStorage.getItem('cart'))) //打印比对一下
       sessionStorage.setItem("totalprice", this.totalprice);
@@ -441,9 +457,10 @@ export default {
   display: block !important;
 }
 
-/deep/ .van-badge--fixed{
+/deep/ .van-badge--fixed {
   top: 6px;
 }
+
 .list-nav-item {
   --bs-list-group-color: #212529;
   --bs-list-group-bg: null;
@@ -546,7 +563,7 @@ export default {
   margin-left: 43px
 }
 
-#minustocartmenu{
+#minustocartmenu {
   margin-left: 40px
 }
 
@@ -560,7 +577,7 @@ export default {
   padding-right: 0;
 }
 
-.card-img-top{
+.card-img-top {
   object-fit: cover;
 }
 
